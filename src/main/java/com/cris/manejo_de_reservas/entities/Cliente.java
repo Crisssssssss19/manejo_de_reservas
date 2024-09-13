@@ -1,8 +1,11 @@
 package com.cris.manejo_de_reservas.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.sql.Date;
 
 @Entity
 @Getter
@@ -30,6 +33,9 @@ public class Cliente {
 
     @Column(nullable = false)
     public String correo;
+
+    @Column(nullable = false)
+    public Date fechaNacimiento;
 
     @OneToOne(optional = false)
     @JoinColumn( name = "id_reserva", referencedColumnName = "id")
