@@ -12,7 +12,6 @@ public interface VueloService {
     Optional<Vuelo> buscarVueloPorId(Long id);
     List<Vuelo> BuscarVuelo();
     List<Vuelo>BuscarVueloByIds(List<Long> ids);
-    List<Vuelo>BuscarVueloByNombre(String nombre);
     Optional<Vuelo> actualizarVuelo(Long id,Vuelo vuelo);
 
 }

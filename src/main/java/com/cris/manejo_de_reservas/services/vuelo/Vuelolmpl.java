@@ -31,11 +31,6 @@ public class Vuelolmpl implements VueloService{
     }
 
     @Override
-    public List<Vuelo> BuscarVueloByNombre(String nombre) {
-        return vueloRepository.findByNombre(nombre);
-    }
-
-    @Override
     public Optional<Vuelo> actualizarVuelo(Long id, Vuelo vuelo) {
         return vueloRepository.findById(id).map( vueloOld ->{
             vueloOld.setOrigen(vuelo.getOrigen());

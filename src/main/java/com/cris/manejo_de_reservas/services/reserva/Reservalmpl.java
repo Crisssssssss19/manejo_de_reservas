@@ -29,11 +29,6 @@ public class Reservalmpl implements ReservaService{
     }
 
     @Override
-    public List<Reserva> BuscarReservaByNombre(String nombre) {
-        return reservaRepository.findByNombre(nombre);
-    }
-
-    @Override
     public Optional<Reserva> actualizarReserva(Long id, Reserva reserva) {
         return reservaRepository.findById(id).map(reservaOld -> {
             reservaOld.setFecha_de_reserva(reserva.getFecha_de_reserva());

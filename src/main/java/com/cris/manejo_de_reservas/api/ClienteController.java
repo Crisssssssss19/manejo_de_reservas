@@ -25,24 +25,24 @@ public class ClienteController{
         return ResponseEntity.ok(clienteService.BuscarCliente()); //200 lo encontro
     }
 
-    @GetMapping("/clientes/idCliente")
+    @GetMapping("/idCliente/{idCliente}")//Traer cliente por id
     public ResponseEntity<Cliente> getClienteById(@PathVariable("idCliente") Long id){ // Tienen que ser iguales
         return clienteService.buscarClientePorId(id)
                 .map(cliente -> ResponseEntity.ok().body(cliente))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/clientes/idsListaDeCliente")
-    public ResponseEntity<List<Cliente>> getListCliente(@PathVariable("idsListaDeCliente") List<Long>ids ){
+    @GetMapping("/lista")//Obtener lista de clientes
+    public ResponseEntity<List<Cliente>> getListCliente(@RequestBody List<Long>ids ){
         return ResponseEntity.ok(clienteService.BuscarClientesByIds(ids));
     }
 
-    @GetMapping("/clientes/buscarClientesPorNombre")
-    public ResponseEntity<List<Cliente>> getClienteByName(@PathVariable("buscarPorNombre") String name){
+    @GetMapping("/nombre/{nombre}")//Buscar clinete por nombre
+    public ResponseEntity<List<Cliente>> getClienteByName(@PathVariable("buscarClientesPorNombre") String name){
         return ResponseEntity.ok(clienteService.BuscarClientesByNombre(name));
     }
 
-    @PutMapping("id")
+    @PutMapping("/actualizar/{id}")//actualizar cliente
     public ResponseEntity<Cliente> actualizarCliente(@PathVariable("id") Long id,@RequestBody Cliente cliente){
         Optional<Cliente> clienteUpdate = clienteService.actualizarCliente(id,cliente);
         return clienteUpdate
@@ -66,7 +66,7 @@ public class ClienteController{
         return ResponseEntity.created(location).body(newCliente);
     }
 
-    @DeleteMapping("id")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteClinete(@PathVariable Long id){
         clienteService.borrarCliente(id);
         return ResponseEntity.noContent()

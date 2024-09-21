@@ -12,7 +12,6 @@ public interface ReservaService {
     Optional<Reserva> buscarReservaPorId(Long id);
     List<Reserva> BuscarReserva();
     List<Reserva> BuscarReservasByIds(List<Long> ids);
-    List<Reserva> BuscarReservaByNombre(String nombre);
     Optional<Reserva> actualizarReserva(Long id, Reserva reserva);
 }
 

@@ -7,6 +7,5 @@ import java.util.List;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
-    List<Reserva> findByNombre(String nombre);
-    List<Reserva> findByIdIn(List<Long> ids);
+    List<Reserva> findByIdIn(List<Long> id);
 }
