@@ -15,5 +15,6 @@ public interface ClienteService {
     List<Cliente>BuscarClientesByIds(List<Long> ids);
     List<Cliente>BuscarClientesByNombre(String nombre);
     Optional<Cliente> actualizarCliente(Long id,Cliente cliente);
+    void borrarCliente(Long id);
 
 }
