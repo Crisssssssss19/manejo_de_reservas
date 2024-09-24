@@ -45,8 +45,7 @@ public class ClienteController{
     @PutMapping("/actualizar/{id}")//actualizar cliente
     public ResponseEntity<Cliente> actualizarCliente(@PathVariable("id") Long id,@RequestBody Cliente cliente){
         Optional<Cliente> clienteUpdate = clienteService.actualizarCliente(id,cliente);
-        return clienteUpdate
-                .map(clienteA -> ResponseEntity.ok(clienteA))
+        return clienteUpdate.map(clienteA -> ResponseEntity.ok(clienteA))
                 .orElseGet(() ->{
                     return createNewCliente(cliente);
                 });
