@@ -38,7 +38,7 @@ public class ClienteController{
     }
 
     @GetMapping("/nombre/{nombre}")//Buscar clinete por nombre
-    public ResponseEntity<List<Cliente>> getClienteByName(@PathVariable("buscarClientesPorNombre") String name){
+    public ResponseEntity<List<Cliente>> getClienteByName(@PathVariable("nombre") String name){
         return ResponseEntity.ok(clienteService.BuscarClientesByNombre(name));
     }
 
