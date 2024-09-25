@@ -1,9 +1,11 @@
 package com.cris.manejo_de_reservas.api;
 
 import com.cris.manejo_de_reservas.entities.Aeropuerto;
+import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.services.aeropuerto.AeropuertoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +24,12 @@ public class AeropuertoController {
     @GetMapping
     public ResponseEntity<List<Aeropuerto>> getAllAeropuerto(){
         return ResponseEntity.ok(aeropuertoService.buscarAeropuerto());
+    }
+
+    @GetMapping("/idAeropuerto")
+    public ResponseEntity<Aeropuerto> getAeropuertoById(@PathVariable("idAeropuerto") Long id){
+        return aeropuertoService.buscarAeropuertoPorId(id)
+                .map(aeropuerto -> ResponseEntity.ok().body(aeropuerto))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
