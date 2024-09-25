@@ -1,5 +1,6 @@
 package com.cris.manejo_de_reservas.api;
 
+import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.entities.Vuelo;
 import com.cris.manejo_de_reservas.services.vuelo.VueloService;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/0.1/vuelos")
@@ -35,6 +37,14 @@ public class VueloController {
         return ResponseEntity.ok(vueloService.BuscarVueloByIds(ids));
     }
 
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<Vuelo> actualizarVuelo(@PathVariable("id") Long id, @RequestBody Vuelo vuelo){
+        Optional<Vuelo> vueloUpdate = vueloService.actualizarVuelo(id, vuelo);
+        return vueloUpdate.map(vueloA ->ResponseEntity.ok(vueloA))
+                .orElseGet(() ->{
+                    return createNewVuelo(vuelo);
+                });
+    }
     @PostMapping
     public ResponseEntity<Vuelo> crearVuelo(@RequestBody Vuelo vuelo){
         return createNewVuelo(vuelo);
