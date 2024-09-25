@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+
 public interface PasajeroService {
 
     Pasajero guardarPasajero (Pasajero pasajero);
@@ -14,6 +14,6 @@ public interface PasajeroService {
     List<Pasajero>BuscarPasajeroByIds(List<Long> ids);
     List<Pasajero>BuscarPasajeroByNombre(String nombre);
     Optional<Pasajero> actualizarPasajero(Long id,Pasajero pasajero);
-
+    void borrarPasajero(Long id);
 }
 

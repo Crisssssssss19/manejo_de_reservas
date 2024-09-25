@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,7 +37,7 @@ public class Cliente {
     @Column(nullable = false)
     public Date fechaNacimiento;
 
-    @OneToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn( name = "id_reserva", referencedColumnName = "id")
     public Reserva reserva;
 }

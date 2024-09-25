@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 public interface ClienteService {
 
     Cliente guardar (Cliente cliente);
@@ -15,5 +14,6 @@ public interface ClienteService {
     List<Cliente>BuscarClientesByIds(List<Long> ids);
     List<Cliente>BuscarClientesByNombre(String nombre);
     Optional<Cliente> actualizarCliente(Long id,Cliente cliente);
+    void borrarCliente(Long id);
 
 }

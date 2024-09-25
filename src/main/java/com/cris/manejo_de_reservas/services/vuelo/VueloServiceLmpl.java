@@ -2,13 +2,19 @@ package com.cris.manejo_de_reservas.services.vuelo;
 
 import com.cris.manejo_de_reservas.entities.Vuelo;
 import com.cris.manejo_de_reservas.repositories.VueloRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public class Vuelolmpl implements VueloService{
+@Service
+public class VueloServiceLmpl implements VueloService {
 
     private VueloRepository vueloRepository;
+
+    public VueloServiceLmpl(VueloRepository vueloRepository) {
+        this.vueloRepository = vueloRepository;
+    }
 
     @Override
     public Vuelo guardarVuelo(Vuelo vuelo) {
@@ -31,11 +37,6 @@ public class Vuelolmpl implements VueloService{
     }
 
     @Override
-    public List<Vuelo> BuscarVueloByNombre(String nombre) {
-        return vueloRepository.findByNombre(nombre);
-    }
-
-    @Override
     public Optional<Vuelo> actualizarVuelo(Long id, Vuelo vuelo) {
         return vueloRepository.findById(id).map( vueloOld ->{
             vueloOld.setOrigen(vuelo.getOrigen());
@@ -46,5 +47,10 @@ public class Vuelolmpl implements VueloService{
             vueloOld.setCapacidad(vuelo.getCapacidad());
             return vueloRepository.save(vueloOld);
         } );
+    }
+
+    @Override
+    public void borrarVuelo(Long id) {
+        vueloRepository.deleteById(id);
     }
 }

@@ -2,12 +2,18 @@ package com.cris.manejo_de_reservas.services.aerolinea;
 
 import com.cris.manejo_de_reservas.entities.Aerolinea;
 import com.cris.manejo_de_reservas.repositories.AerolineaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public class Aerolinealmpl implements AerolineaService {
-    private AerolineaRepository aerolineaRepository;
+@Service
+public class AerolineaServiceLmpl implements AerolineaService {
+    private final AerolineaRepository aerolineaRepository;
+
+    public AerolineaServiceLmpl(AerolineaRepository aerolineaRepository) {
+        this.aerolineaRepository = aerolineaRepository;
+    }
 
     @Override
     public Aerolinea guardarAerolinea(Aerolinea aerolinea) {
@@ -42,5 +48,10 @@ public class Aerolinealmpl implements AerolineaService {
             aerolineaOld.setPais_de_origen(aerolinea.getPais_de_origen());
             return aerolineaRepository.save(aerolineaOld);
         }) ;
+    }
+
+    @Override
+    public void borrarAerolinea(Long id) {
+        aerolineaRepository.deleteById(id);
     }
 }

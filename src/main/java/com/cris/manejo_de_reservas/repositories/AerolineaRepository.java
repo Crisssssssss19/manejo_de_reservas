@@ -9,5 +9,4 @@ import java.util.List;
 public interface AerolineaRepository extends JpaRepository<Aerolinea, Long> {
     List<Aerolinea> findByNombre(String nonbre);
     List<Aerolinea> findByIdIn(List<Long> ids);
-    List<Aerolinea> findByCodigo_de_aerolinea(Integer codigo);
 }

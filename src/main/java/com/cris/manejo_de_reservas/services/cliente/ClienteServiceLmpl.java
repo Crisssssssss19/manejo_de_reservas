@@ -2,15 +2,22 @@ package com.cris.manejo_de_reservas.services.cliente;
 
 import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.repositories.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteServiceImpl implements ClienteService {
+public class ClienteServiceLmpl implements ClienteService {
+
 
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    public ClienteServiceLmpl(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
+    }
 
     @Override
     public Cliente guardar(Cliente cliente) {
@@ -29,7 +36,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public List<Cliente> BuscarClientesByIds(List<Long> ids) {
-        return clienteRepository.findByIn(ids);
+        return clienteRepository.findByIdIn(ids);
     }
 
     @Override
@@ -50,4 +57,8 @@ public class ClienteServiceImpl implements ClienteService {
         });
     }
 
+    @Override
+    public void borrarCliente(Long id) {
+        clienteRepository.deleteById(id);
+    }
 }

@@ -34,7 +34,7 @@ public class Reserva {
     private Integer numero_de_pasajeros;
 
     /**Muchos clientes reservan un vuelo*/
-    @OneToMany(mappedBy = "reserva")
+    @OneToMany(mappedBy = "reserva",fetch = FetchType.EAGER)
     private List<Cliente> clientes;
 
     /** muchas reserva tiene muchos vuelos y muchos vuelos muchas reservas*/

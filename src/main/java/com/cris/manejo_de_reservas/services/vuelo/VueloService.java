@@ -5,14 +5,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+
 public interface VueloService {
 
     Vuelo guardarVuelo(Vuelo vuelo);
     Optional<Vuelo> buscarVueloPorId(Long id);
     List<Vuelo> BuscarVuelo();
     List<Vuelo>BuscarVueloByIds(List<Long> ids);
-    List<Vuelo>BuscarVueloByNombre(String nombre);
     Optional<Vuelo> actualizarVuelo(Long id,Vuelo vuelo);
-
+    void borrarVuelo(Long id);
 }

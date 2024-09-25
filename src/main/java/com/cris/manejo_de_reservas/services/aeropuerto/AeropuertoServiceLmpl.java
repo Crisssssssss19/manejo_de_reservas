@@ -2,13 +2,19 @@ package com.cris.manejo_de_reservas.services.aeropuerto;
 
 import com.cris.manejo_de_reservas.entities.Aeropuerto;
 import com.cris.manejo_de_reservas.repositories.AeropuertoRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
+@Service
+public class AeropuertoServiceLmpl implements AeropuertoService {
 
-public class Aeropuertolmpl implements AeropuetoService{
+    private final AeropuertoRepository aeropuertoRepository;
 
-    private AeropuertoRepository aeropuertoRepository;
+    public AeropuertoServiceLmpl(AeropuertoRepository aeropuertoRepository) {
+        this.aeropuertoRepository = aeropuertoRepository;
+    }
 
     @Override
     public Aeropuerto guardarAeropuerto(Aeropuerto aeropuerto) {
@@ -44,4 +50,10 @@ public class Aeropuertolmpl implements AeropuetoService{
             return aeropuertoRepository.save(aeropuertoOld);
         });
     }
+
+    @Override
+    public void borrarAerolinea(Long id) {
+        aeropuertoRepository.deleteById(id);
+    }
+
 }

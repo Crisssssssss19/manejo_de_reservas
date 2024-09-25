@@ -7,6 +7,5 @@ import java.util.List;
 
 @Repository
 public interface VueloRepository extends JpaRepository<Vuelo, Long> {
-    List<Vuelo> findByNombre(String nombre);
     List<Vuelo> findByIdIn(List<Long> ids);
 }
