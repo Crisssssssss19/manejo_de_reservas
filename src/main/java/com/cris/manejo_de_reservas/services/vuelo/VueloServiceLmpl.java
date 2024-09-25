@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class Vuelolmpl implements VueloService {
+public class VueloServiceLmpl implements VueloService {
 
     private VueloRepository vueloRepository;
 
-    public Vuelolmpl(VueloRepository vueloRepository) {
+    public VueloServiceLmpl(VueloRepository vueloRepository) {
         this.vueloRepository = vueloRepository;
     }
 
@@ -47,5 +47,10 @@ public class Vuelolmpl implements VueloService {
             vueloOld.setCapacidad(vuelo.getCapacidad());
             return vueloRepository.save(vueloOld);
         } );
+    }
+
+    @Override
+    public void borrarVuelo(Long id) {
+        vueloRepository.deleteById(id);
     }
 }
