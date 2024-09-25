@@ -4,6 +4,7 @@ import com.cris.manejo_de_reservas.entities.Aerolinea;
 import com.cris.manejo_de_reservas.services.aerolinea.AerolineaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,12 @@ public class AerolineaController {
     @GetMapping()
     public ResponseEntity<List<Aerolinea>> getAllAerolinea(){
         return ResponseEntity.ok(aerolineaService.buscarAerolinea());
+    }
+
+    @GetMapping("/idAerolinea")
+    public ResponseEntity<Aerolinea> getAerolineaById(@PathVariable ("idAerolinea")Long id){
+        return aerolineaService.buscarAerolineaPorId(id)
+                .map(aerolinea -> ResponseEntity.ok().body(aerolinea))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
