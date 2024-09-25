@@ -2,12 +2,18 @@ package com.cris.manejo_de_reservas.services.pasajero;
 
 import com.cris.manejo_de_reservas.entities.Pasajero;
 import com.cris.manejo_de_reservas.repositories.PasajeroRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public class Pasajerolmpl implements PasajeroService{
+@Service
+public class PasajeroServiceLmpl implements PasajeroService{
     private PasajeroRepository pasajeroRepository;
+
+    public PasajeroServiceLmpl(PasajeroRepository pasajeroRepository) {
+        this.pasajeroRepository = pasajeroRepository;
+    }
 
     @Override
     public Pasajero guardarPasajero(Pasajero pasajero) {
@@ -43,5 +49,10 @@ public class Pasajerolmpl implements PasajeroService{
             pasajeroOld.setTelefono(pasajero.getTelefono());
             return pasajeroRepository.save(pasajeroOld);
         } );
+    }
+
+    @Override
+    public void borrarPasajero(Long id) {
+        pasajeroRepository.deleteById(id);
     }
 }

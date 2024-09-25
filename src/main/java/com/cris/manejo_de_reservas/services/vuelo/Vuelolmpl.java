@@ -2,13 +2,19 @@ package com.cris.manejo_de_reservas.services.vuelo;
 
 import com.cris.manejo_de_reservas.entities.Vuelo;
 import com.cris.manejo_de_reservas.repositories.VueloRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public class Vuelolmpl implements VueloService{
+@Service
+public class Vuelolmpl implements VueloService {
 
     private VueloRepository vueloRepository;
+
+    public Vuelolmpl(VueloRepository vueloRepository) {
+        this.vueloRepository = vueloRepository;
+    }
 
     @Override
     public Vuelo guardarVuelo(Vuelo vuelo) {

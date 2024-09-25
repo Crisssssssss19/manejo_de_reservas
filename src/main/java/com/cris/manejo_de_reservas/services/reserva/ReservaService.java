@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 public interface ReservaService {
 
     Reserva guardarReserva(Reserva reserva);
@@ -13,5 +12,7 @@ public interface ReservaService {
     List<Reserva> BuscarReserva();
     List<Reserva> BuscarReservasByIds(List<Long> ids);
     Optional<Reserva> actualizarReserva(Long id, Reserva reserva);
+    void borrarReserva(Long id);
+
 }
 

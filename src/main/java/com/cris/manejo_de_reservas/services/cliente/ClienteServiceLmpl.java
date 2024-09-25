@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteServiceImpl implements ClienteService {
+public class ClienteServiceLmpl implements ClienteService {
 
 
     private ClienteRepository clienteRepository;
 
     @Autowired
-    public ClienteServiceImpl(ClienteRepository clienteRepository) {
+    public ClienteServiceLmpl(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
 
