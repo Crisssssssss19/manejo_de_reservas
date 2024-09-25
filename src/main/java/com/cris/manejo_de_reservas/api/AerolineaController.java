@@ -52,6 +52,11 @@ public class AerolineaController {
                 });
     }
 
+    @PostMapping
+    public ResponseEntity<Cliente> crearAerolinea(@RequestBody Aerolinea aerolinea){
+        return crearAerolinea(aerolinea);
+    }
+
     private ResponseEntity<Aerolinea> createNewAerolinea(Aerolinea aerolinea) {
        Aerolinea newAeroplinea= aerolineaService.guardarAerolinea(aerolinea);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
