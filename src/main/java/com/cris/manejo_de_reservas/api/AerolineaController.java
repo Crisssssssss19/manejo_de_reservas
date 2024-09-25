@@ -65,4 +65,11 @@ public class AerolineaController {
                 .toUri();
         return ResponseEntity.created(location).body(newAeroplinea);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteAerolinea(@PathVariable Long id){
+        aerolineaService.borrarAerolinea(id);
+        return ResponseEntity.noContent()
+                .build();
+    }
 }
