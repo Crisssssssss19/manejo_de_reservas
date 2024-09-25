@@ -33,4 +33,8 @@ public class AeropuertoController {
     public ResponseEntity<List<Aeropuerto>> getListAeropuertos(@RequestBody List<Long>ids ){
         return ResponseEntity.ok(aeropuertoService.buscaraAropuertoPorIds(ids));
     }
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<List<Aeropuerto>> getAeropuertoByName(@PathVariable("nombre") String name){
+        return ResponseEntity.ok(aeropuertoService.buscarAeropuertoByNombre(name));
+    }
 }
