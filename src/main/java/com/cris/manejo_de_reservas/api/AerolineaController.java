@@ -1,6 +1,7 @@
 package com.cris.manejo_de_reservas.api;
 
 import com.cris.manejo_de_reservas.entities.Aerolinea;
+import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.services.aerolinea.AerolineaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,10 @@ public class AerolineaController {
     @GetMapping("/lista")
     public ResponseEntity<List<Aerolinea>> getListAerolineas(@RequestBody List<Long> ids){
         return  ResponseEntity.ok(aerolineaService.buscarAerolineaPorIds(ids));
+    }
+
+    @GetMapping("/nombre/{nombre}")//Buscar clinete por nombre
+    public ResponseEntity<List<Aerolinea>> getAerolineaByName(@PathVariable("nombre") String name){
+        return ResponseEntity.ok(aerolineaService.buscarAerolineaByNombre(name));
     }
 }
