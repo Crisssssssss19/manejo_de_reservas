@@ -58,4 +58,10 @@ public class VueloController {
                 .toUri();
         return ResponseEntity.created(location).body(vuelo);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteVuelo(@PathVariable Long id){
+        vueloService.borrarVuelo(id);
+        return ResponseEntity.noContent()
+                .build();
+    }
 }
