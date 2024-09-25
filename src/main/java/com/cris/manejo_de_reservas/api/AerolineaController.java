@@ -5,7 +5,9 @@ import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.services.aerolinea.AerolineaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +50,14 @@ public class AerolineaController {
                 .orElseGet(() ->{
                     return createNewAerolinea(aerolinea);
                 });
+    }
+
+    private ResponseEntity<Aerolinea> createNewAerolinea(Aerolinea aerolinea) {
+       Aerolinea newAeroplinea= aerolineaService.guardarAerolinea(aerolinea);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")//Agrega un id
+                .buildAndExpand(newAeroplinea.getId())//Construye la url
+                .toUri();
+        return ResponseEntity.created(location).body(newAeroplinea);
     }
 }
