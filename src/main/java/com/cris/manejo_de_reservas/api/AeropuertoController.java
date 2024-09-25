@@ -62,4 +62,11 @@ public class AeropuertoController {
         return ResponseEntity.created(location).body(newAeropuerto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteAeropuerto(@PathVariable Long id){
+        aeropuertoService.borrarAerolinea(id);
+        return ResponseEntity.noContent()
+                .build();
+    }
+
 }
