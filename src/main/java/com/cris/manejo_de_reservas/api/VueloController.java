@@ -30,6 +30,10 @@ public class VueloController {
                 .map(vuelo -> ResponseEntity.ok().body(vuelo))
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/lista")
+    public ResponseEntity<List<Vuelo>> getListVuelos(@RequestBody List<Long>ids){
+        return ResponseEntity.ok(vueloService.BuscarVueloByIds(ids));
+    }
 
     @PostMapping
     public ResponseEntity<Vuelo> crearVuelo(@RequestBody Vuelo vuelo){
