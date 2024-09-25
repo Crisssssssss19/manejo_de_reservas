@@ -5,7 +5,9 @@ import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.services.aeropuerto.AeropuertoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +45,21 @@ public class AeropuertoController {
         Optional<Aeropuerto> aeropuertoUpdate = aeropuertoService.actualizarAerolinea(id, aeropuerto);
         return aeropuertoUpdate.map(aeropuerto1 -> ResponseEntity.ok(aeropuerto1))
                 .orElseGet(() ->{
-                    return createNewAeropuerto(aeropuerto);;
+                    return createNewAeropuerto(aeropuerto);
                 });
     }
+    @PostMapping
+    public ResponseEntity<Aeropuerto> crearAeropuerto(@RequestBody Aeropuerto aeropuerto){
+        return createNewAeropuerto(aeropuerto);
+    }
+
+    private ResponseEntity<Aeropuerto> createNewAeropuerto(Aeropuerto aeropuerto) {
+        Aeropuerto newAeropuerto = aeropuertoService.guardarAeropuerto(aeropuerto);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")//Agrega un id
+                .buildAndExpand(newAeropuerto.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(newAeropuerto);
+    }
+
 }
