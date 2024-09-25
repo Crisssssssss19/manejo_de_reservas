@@ -4,10 +4,7 @@ import com.cris.manejo_de_reservas.entities.Aeropuerto;
 import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.services.aeropuerto.AeropuertoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +28,9 @@ public class AeropuertoController {
         return aeropuertoService.buscarAeropuertoPorId(id)
                 .map(aeropuerto -> ResponseEntity.ok().body(aeropuerto))
                 .orElse(ResponseEntity.notFound().build());
+    }
+    @GetMapping("/lista")
+    public ResponseEntity<List<Aeropuerto>> getListAeropuertos(@RequestBody List<Long>ids ){
+        return ResponseEntity.ok(aeropuertoService.buscaraAropuertoPorIds(ids));
     }
 }
