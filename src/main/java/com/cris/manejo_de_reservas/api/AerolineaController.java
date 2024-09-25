@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/0.1/aerolineas")
@@ -35,8 +36,17 @@ public class AerolineaController {
         return  ResponseEntity.ok(aerolineaService.buscarAerolineaPorIds(ids));
     }
 
-    @GetMapping("/nombre/{nombre}")//Buscar clinete por nombre
+    @GetMapping("/nombre/{nombre}")
     public ResponseEntity<List<Aerolinea>> getAerolineaByName(@PathVariable("nombre") String name){
         return ResponseEntity.ok(aerolineaService.buscarAerolineaByNombre(name));
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<Aerolinea> actualizarAerolinea(@PathVariable("id") Long id,@RequestBody Aerolinea aerolinea){
+        Optional<Aerolinea> clienteUpdate = aerolineaService.actualizarAerolinea(id,aerolinea);
+        return clienteUpdate.map(aerolineaA -> ResponseEntity.ok(aerolineaA))
+                .orElseGet(() ->{
+                    return createNewAerolinea(aerolinea);
+                });
     }
 }
