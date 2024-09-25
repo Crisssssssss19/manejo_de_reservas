@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public interface AeropuetoService {
+public interface AeropuertoService {
     Aeropuerto guardarAeropuerto(Aeropuerto aeropuerto);
     Optional<Aeropuerto> buscarAeropuertoPorId(Long id);
     List<Aeropuerto> buscarAeropuerto();
     List<Aeropuerto> buscaraAropuertoPorIds(List<Long>ids);
     List<Aeropuerto> buscarAeropuertoByNombre(String nombre);
     Optional<Aeropuerto> actualizarAerolinea(Long id, Aeropuerto aeropuerto);
-
+    void borrarAerolinea(Long id);
 }
 
