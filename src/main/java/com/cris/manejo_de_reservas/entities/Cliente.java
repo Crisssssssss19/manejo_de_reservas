@@ -1,11 +1,9 @@
 package com.cris.manejo_de_reservas.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -23,16 +21,13 @@ public class Cliente {
     public String apellido;
 
     @Column(nullable = false)
+    public String direccion;
+
+    @Column(nullable = false)
     public String email;
 
     @Column(nullable = false)
     public String telefono;
-
-    @Column(nullable = false)
-    public String direccion;
-
-    @Column(nullable = false)
-    public String correo;
 
     @Column(nullable = false)
     public Date fechaNacimiento;
