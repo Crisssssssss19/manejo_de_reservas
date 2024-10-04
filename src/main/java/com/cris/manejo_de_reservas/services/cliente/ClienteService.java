@@ -1,5 +1,6 @@
 package com.cris.manejo_de_reservas.services.cliente;
 
+import com.cris.manejo_de_reservas.dto.ClienteDto;
 import com.cris.manejo_de_reservas.entities.Cliente;
 import org.springframework.stereotype.Service;
 
@@ -8,12 +9,12 @@ import java.util.Optional;
 
 public interface ClienteService {
 
-    Cliente guardar (Cliente cliente);
-    Optional<Cliente> buscarClientePorId(Long id);
-    List<Cliente> BuscarCliente();
-    List<Cliente>BuscarClientesByIds(List<Long> ids);
-    List<Cliente>BuscarClientesByNombre(String nombre);
-    Optional<Cliente> actualizarCliente(Long id,Cliente cliente);
+    ClienteDto guardar (ClienteDto cliente);
+    Optional<ClienteDto> buscarClientePorId(Long id);
+    List<ClienteDto> BuscarCliente();
+    List<ClienteDto>BuscarClientesByIds(List<Long> ids);
+    List<ClienteDto>BuscarClientesByNombre(String nombre);
+    Optional<ClienteDto> actualizarCliente(Long id,ClienteDto cliente);
     void borrarCliente(Long id);
 
 }
