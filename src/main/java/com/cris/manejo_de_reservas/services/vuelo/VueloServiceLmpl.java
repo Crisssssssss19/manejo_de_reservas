@@ -1,52 +1,54 @@
 package com.cris.manejo_de_reservas.services.vuelo;
 
+import com.cris.manejo_de_reservas.dto.VueloDto;
 import com.cris.manejo_de_reservas.entities.Vuelo;
+import com.cris.manejo_de_reservas.mapper.VueloMapper;
 import com.cris.manejo_de_reservas.repositories.VueloRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class VueloServiceLmpl implements VueloService {
 
-    private VueloRepository vueloRepository;
+    private final VueloMapper vueloMapper;
+    private final VueloRepository vueloRepository;
 
-    public VueloServiceLmpl(VueloRepository vueloRepository) {
-        this.vueloRepository = vueloRepository;
+    @Override
+    public VueloDto guardarVuelo(VueloDto vuelo) {
+        return vueloMapper.toIdDto(vueloRepository.save(vueloMapper.toEntity(vuelo)));
     }
 
     @Override
-    public Vuelo guardarVuelo(Vuelo vuelo) {
-        return vueloRepository.save(vuelo);
+    public Optional<VueloDto> buscarVueloPorId(Long id) {
+        return Optional.of(vueloMapper.toIdDto(vueloRepository.findById(id).get()));
     }
 
     @Override
-    public Optional<Vuelo> buscarVueloPorId(Long id) {
-        return vueloRepository.findById(id);
+    public List<VueloDto> BuscarVuelo() {
+        return vueloMapper.toListDto(vueloRepository.findAll());
     }
 
     @Override
-    public List<Vuelo> BuscarVuelo() {
-        return vueloRepository.findAll();
+    public List<VueloDto> BuscarVueloByIds(List<Long> ids) {
+        return vueloMapper.toListDto(vueloRepository.findByIdIn(ids));
     }
 
     @Override
-    public List<Vuelo> BuscarVueloByIds(List<Long> ids) {
-        return vueloRepository.findByIdIn(ids);
-    }
-
-    @Override
-    public Optional<Vuelo> actualizarVuelo(Long id, Vuelo vuelo) {
-        return vueloRepository.findById(id).map( vueloOld ->{
-            vueloOld.setOrigen(vuelo.getOrigen());
-            vueloOld.setDestino(vuelo.getDestino());
-            vueloOld.setFechaDeSalida(vuelo.getFechaDeSalida());
-            vueloOld.setHoraDeSalida(vuelo.getHoraDeSalida());
-            vueloOld.setDuracion(vuelo.getDuracion());
-            vueloOld.setCapacidad(vuelo.getCapacidad());
+    public Optional<VueloDto> actualizarVuelo(Long id, VueloDto vuelo) {
+        return Optional.of(vueloMapper.toIdDto(vueloRepository.findById(id).map( vueloOld ->{
+            vueloOld.setOrigen(vuelo.origen());
+            vueloOld.setDestino(vuelo.destino());
+            vueloOld.setFechaDeSalida(vuelo.fechaDeSalida());
+            vueloOld.setHoraDeSalida(vuelo.horaDeSalida());
+            vueloOld.setDuracion(vuelo.duracion());
+            vueloOld.setCapacidad(vuelo.capacidad());
             return vueloRepository.save(vueloOld);
-        } );
+        }).get()));
+
     }
 
     @Override

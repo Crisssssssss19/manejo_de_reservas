@@ -1,5 +1,6 @@
 package com.cris.manejo_de_reservas.services.reserva;
 
+import com.cris.manejo_de_reservas.dto.ReservaDto;
 import com.cris.manejo_de_reservas.entities.Reserva;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -7,11 +8,11 @@ import java.util.Optional;
 
 public interface ReservaService {
 
-    Reserva guardarReserva(Reserva reserva);
-    Optional<Reserva> buscarReservaPorId(Long id);
-    List<Reserva> BuscarReserva();
-    List<Reserva> BuscarReservasByIds(List<Long> ids);
-    Optional<Reserva> actualizarReserva(Long id, Reserva reserva);
+    ReservaDto guardarReserva(ReservaDto reserva);
+    Optional<ReservaDto> buscarReservaPorId(Long id);
+    List<ReservaDto> BuscarReserva();
+    List<ReservaDto> BuscarReservasByIds(List<Long> ids);
+    Optional<ReservaDto> actualizarReserva(Long id, ReservaDto reserva);
     void borrarReserva(Long id);
 
 }
