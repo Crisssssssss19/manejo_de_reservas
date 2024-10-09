@@ -1,52 +1,87 @@
 package com.cris.manejo_de_reservas.mapper;
 
-
 import com.cris.manejo_de_reservas.dto.ClienteDto;
 import com.cris.manejo_de_reservas.entities.Cliente;
-import jdk.jfr.Name;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ClienteMapper {
 
+    ClienteMapper INSTANCE = Mappers.getMapper(ClienteMapper.class);
+
     /**
-     * Pasa Cliente a ClienteDto
+     * Mapea una entidad Cliente a un ClienteDto, incluyendo el ID.
+     *
+     * @param cliente la entidad Cliente
+     * @return el ClienteDto correspondiente
      */
-    @Named("clienteConId")
+    @Named("conId")
     ClienteDto toIdDto(Cliente cliente);
 
     /**
-     * Pasa ClienteDto a Cliente
+     * Mapea un ClienteDto a una entidad Cliente, incluyendo el ID.
+     *
+     * @param clienteDto el DTO de Cliente
+     * @return la entidad Cliente correspondiente
      */
+    @Named("conId")
     Cliente toIDEntity(ClienteDto clienteDto);
 
-    /** Pasa una lista de Clinetes a ClientesDto*/
-    @Named("listasConId")
-    List<ClienteDto> toListDto(List<Cliente> cliente);
+    /**
+     * Mapea una lista de entidades Cliente a una lista de ClienteDto, incluyendo los IDs.
+     *
+     * @param clientes la lista de entidades Cliente
+     * @return la lista de ClienteDto correspondiente
+     */
+    List<ClienteDto> toListDto(List<Cliente> clientes);
 
-    /**Pasa una lista de ClientesDto a Clientes*/
+    /**
+     * Mapea una lista de ClienteDto a una lista de entidades Cliente, incluyendo los IDs.
+     *
+     * @param clienteDtos la lista de ClienteDto
+     * @return la lista de entidades Cliente correspondiente
+     */
     List<Cliente> toListEntity(List<ClienteDto> clienteDtos);
 
-    /**Pasa clinete a clienteDto sin id*/
-    @Named("cleinteSinId")
+    /**
+     * Mapea una entidad Cliente a un ClienteDto, ignorando el campo ID.
+     *
+     * @param cliente la entidad Cliente
+     * @return el ClienteDto correspondiente sin el ID
+     */
+    @Named("sinId")
     @Mapping(target = "id", ignore = true)
     ClienteDto toDto(Cliente cliente);
 
-    /**Pasa clienteDto a cliente sin id*/
+    /**
+     * Mapea un ClienteDto a una entidad Cliente, ignorando el campo ID.
+     *
+     * @param clienteDto el DTO de Cliente
+     * @return la entidad Cliente correspondiente sin el ID
+     */
     @Mapping(target = "id", ignore = true)
     Cliente toEntity(ClienteDto clienteDto);
 
-    /**Pasa una lista de clientes a una lista de clinetesDto sin id*/
-    @Named("listaDeClienteSinId")
+    /**
+     * Mapea una lista de entidades Cliente a una lista de ClienteDto, ignorando los campos ID.
+     *
+     * @param clientes la lista de entidades Cliente
+     * @return la lista de ClienteDto correspondiente sin IDs
+     */
     @Mapping(target = "id", ignore = true)
-    List<ClienteDto> toListDtoSinId(List<Cliente> cliente);
+    List<ClienteDto> toListDtoSinId(List<Cliente> clientes);
 
-    /**Pasa una lista de clientesDto a una lista de clinetes sin id*/
+    /**
+     * Mapea una lista de ClienteDto a una lista de entidades Cliente, ignorando los campos ID.
+     *
+     * @param clienteDtos la lista de ClienteDto
+     * @return la lista de entidades Cliente correspondiente sin IDs
+     */
     @Mapping(target = "id", ignore = true)
-    List<Cliente> toListEntitySinId(List<ClienteDto> clienteDto);
-
+    List<Cliente> toListEntitySinId(List<ClienteDto> clienteDtos);
 }

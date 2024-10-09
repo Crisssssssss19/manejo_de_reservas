@@ -1,6 +1,6 @@
 package com.cris.manejo_de_reservas.api;
 import com.cris.manejo_de_reservas.dto.ClienteDto;
-import com.cris.manejo_de_reservas.entities.Cliente;
+import com.cris.manejo_de_reservas.exceptions.ClienteNotFounException;
 import com.cris.manejo_de_reservas.services.cliente.ClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +24,11 @@ public class ClienteController{
         return ResponseEntity.ok(clienteService.BuscarCliente()); //200 lo encontro
     }
 
-    @GetMapping("/idCliente/{idCliente}")//Traer cliente por id
+    @GetMapping("/idCliente/{idCliente}")//Traer cliente por Id
     public ResponseEntity<ClienteDto> getClienteById(@PathVariable("idCliente") Long id){ // Tienen que ser iguales
         return clienteService.buscarClientePorId(id)
                 .map(cliente -> ResponseEntity.ok().body(cliente))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(ClienteNotFounException::new);
     }
 
     @GetMapping("/lista")//Obtener lista de clientes

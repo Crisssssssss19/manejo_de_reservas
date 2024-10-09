@@ -1,54 +1,55 @@
 package com.cris.manejo_de_reservas.services.pasajero;
 
+import com.cris.manejo_de_reservas.dto.PasajeroDto;
 import com.cris.manejo_de_reservas.entities.Pasajero;
+import com.cris.manejo_de_reservas.mapper.PasajeroMapper;
 import com.cris.manejo_de_reservas.repositories.PasajeroRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class PasajeroServiceLmpl implements PasajeroService{
-    private PasajeroRepository pasajeroRepository;
+    private final PasajeroRepository pasajeroRepository;
+    private final PasajeroMapper pasajeroMapper;
 
-    public PasajeroServiceLmpl(PasajeroRepository pasajeroRepository) {
-        this.pasajeroRepository = pasajeroRepository;
+    @Override
+    public PasajeroDto guardarPasajero(PasajeroDto pasajero) {
+        return pasajeroMapper.toIdDto(pasajeroRepository.save(pasajeroMapper.toEntity(pasajero)));
     }
 
     @Override
-    public Pasajero guardarPasajero(Pasajero pasajero) {
-        return pasajeroRepository.save(pasajero);
+    public Optional<PasajeroDto> buscarPasajeroPorId(Long id) {
+        return Optional.of(pasajeroMapper.toIdDto(pasajeroRepository.findById(id).get()));
     }
 
     @Override
-    public Optional<Pasajero> buscarPasajeroPorId(Long id) {
-        return pasajeroRepository.findById(id);
+    public List<PasajeroDto> BuscarPasajero() {
+        return pasajeroMapper.toListDto(pasajeroRepository.findAll());
     }
 
     @Override
-    public List<Pasajero> BuscarPasajero() {
-        return pasajeroRepository.findAll();
+    public List<PasajeroDto> BuscarPasajeroByIds(List<Long> ids) {
+        return pasajeroMapper.toListDto(pasajeroRepository.findByIdIn(ids));
     }
 
     @Override
-    public List<Pasajero> BuscarPasajeroByIds(List<Long> ids) {
-        return pasajeroRepository.findByIdIn(ids);
+    public List<PasajeroDto> BuscarPasajeroByNombre(String nombre) {
+        return pasajeroMapper.toListDto(pasajeroRepository.findByNombre(nombre));
     }
 
     @Override
-    public List<Pasajero> BuscarPasajeroByNombre(String nombre) {
-        return pasajeroRepository.findByNombre(nombre);
-    }
-
-    @Override
-    public Optional<Pasajero> actualizarPasajero(Long id, Pasajero pasajero) {
-        return pasajeroRepository.findById(id).map(pasajeroOld -> {
-            pasajeroOld.setNombre(pasajero.getNombre());
-            pasajeroOld.setApellido(pasajero.getApellido());
-            pasajeroOld.setCc(pasajero.getCc());
-            pasajeroOld.setTelefono(pasajero.getTelefono());
+    public Optional<PasajeroDto> actualizarPasajero(Long id, PasajeroDto pasajero) {
+        return Optional.of( pasajeroMapper.toIdDto(pasajeroRepository.findById(id).map(pasajeroOld -> {
+            pasajeroOld.setNombre(pasajero.nombre());
+            pasajeroOld.setApellido(pasajero.apellido());
+            pasajeroOld.setCc(pasajero.cc());
+            pasajeroOld.setTelefono(pasajero.telefono());
             return pasajeroRepository.save(pasajeroOld);
-        } );
+        } ).get()));
     }
 
     @Override

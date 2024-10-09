@@ -1,7 +1,8 @@
 package com.cris.manejo_de_reservas.api;
 
-import com.cris.manejo_de_reservas.entities.Reserva;
+import com.cris.manejo_de_reservas.dto.ReservaDto;
 import com.cris.manejo_de_reservas.services.reserva.ReservaService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -12,35 +13,33 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/0.1/reservas")
+@AllArgsConstructor
 public class ReservaController {
     private final ReservaService reservaService;
 
-    public ReservaController(ReservaService reservaService) {
-        this.reservaService = reservaService;
-    }
     //Traer todos los clientes
     @GetMapping()//Se entiende que es la ruta clientes
-    public ResponseEntity<List<Reserva>> getAllReservas(){
+    public ResponseEntity<List<ReservaDto>> getAllReservas(){
         return ResponseEntity.ok(reservaService.BuscarReserva());
     }
 
     @GetMapping("/idReserva/{idReserva}")//Traer cliente por id
-    public ResponseEntity<Reserva> getReservaById(@PathVariable("idReserva") Long id){ // Tienen que ser iguales
+    public ResponseEntity<ReservaDto> getReservaById(@PathVariable("idReserva") Long id){ // Tienen que ser iguales
         return reservaService.buscarReservaPorId(id)
                 .map(cliente -> ResponseEntity.ok().body(cliente))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<Reserva>> getListCliente(@RequestBody List<Long>ids ){
+    public ResponseEntity<List<ReservaDto>> getListCliente(@RequestBody List<Long>ids ){
         return ResponseEntity.ok(reservaService.BuscarReservasByIds(ids));
     }
 
 
 
     @PutMapping("/actualizar/{id}")//actualizar cliente
-    public ResponseEntity<Reserva> actualizarReserva(@PathVariable("id") Long id,@RequestBody Reserva reserva){
-        Optional<Reserva> reservaUpdate = reservaService.actualizarReserva(id,reserva);
+    public ResponseEntity<ReservaDto> actualizarReserva(@PathVariable("id") Long id,@RequestBody ReservaDto reserva){
+        Optional<ReservaDto> reservaUpdate = reservaService.actualizarReserva(id,reserva);
         return reservaUpdate.map(reservaA -> ResponseEntity.ok(reservaA))
                 .orElseGet(() ->{
                     return createNewReserva(reserva);
@@ -48,16 +47,16 @@ public class ReservaController {
     }
 
     @PostMapping
-    public ResponseEntity<Reserva> crearReserva(@RequestBody Reserva reserva){
+    public ResponseEntity<ReservaDto> crearReserva(@RequestBody ReservaDto reserva){
         return createNewReserva(reserva);
     }
 
 
-    private ResponseEntity<Reserva> createNewReserva(Reserva reserva) {
-        Reserva newReserva = reservaService.guardarReserva(reserva);
+    private ResponseEntity<ReservaDto> createNewReserva(ReservaDto reserva) {
+        ReservaDto newReserva = reservaService.guardarReserva(reserva);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")//Agrega un id
-                .buildAndExpand(newReserva.getId())//Construye la url
+                .buildAndExpand(newReserva.id())//Construye la url
                 .toUri();
         return ResponseEntity.created(location).body(newReserva);
     }
