@@ -1,6 +1,5 @@
 package com.cris.manejo_de_reservas.repositories;
 
-import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.entities.Pasajero;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

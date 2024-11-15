@@ -1,7 +1,6 @@
 package com.cris.manejo_de_reservas.services.cliente;
 
 import com.cris.manejo_de_reservas.dto.ClienteDto;
-import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.mapper.ClienteMapper;
 import com.cris.manejo_de_reservas.repositories.ClienteRepository;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.cris.manejo_de_reservas.mapper;
 
 import com.cris.manejo_de_reservas.dto.ClienteDto;
-import com.cris.manejo_de_reservas.entities.Cliente;
+import com.cris.manejo_de_reservas.entities.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -21,7 +21,7 @@ public interface ClienteMapper {
      * @return el ClienteDto correspondiente
      */
     @Named("conId")
-    ClienteDto toIdDto(Cliente cliente);
+    ClienteDto toIdDto(Usuario cliente);
 
     /**
      * Mapea un ClienteDto a una entidad Cliente, incluyendo el ID.
@@ -30,7 +30,7 @@ public interface ClienteMapper {
      * @return la entidad Cliente correspondiente
      */
     @Named("conId")
-    Cliente toIDEntity(ClienteDto clienteDto);
+    Usuario toIDEntity(ClienteDto clienteDto);
 
     /**
      * Mapea una lista de entidades Cliente a una lista de ClienteDto, incluyendo los IDs.
@@ -38,7 +38,7 @@ public interface ClienteMapper {
      * @param clientes la lista de entidades Cliente
      * @return la lista de ClienteDto correspondiente
      */
-    List<ClienteDto> toListDto(List<Cliente> clientes);
+    List<ClienteDto> toListDto(List<Usuario> clientes);
 
     /**
      * Mapea una lista de ClienteDto a una lista de entidades Cliente, incluyendo los IDs.
@@ -46,7 +46,7 @@ public interface ClienteMapper {
      * @param clienteDtos la lista de ClienteDto
      * @return la lista de entidades Cliente correspondiente
      */
-    List<Cliente> toListEntity(List<ClienteDto> clienteDtos);
+    List<Usuario> toListEntity(List<ClienteDto> clienteDtos);
 
     /**
      * Mapea una entidad Cliente a un ClienteDto, ignorando el campo ID.
@@ -56,7 +56,7 @@ public interface ClienteMapper {
      */
     @Named("sinId")
     @Mapping(target = "id", ignore = true)
-    ClienteDto toDto(Cliente cliente);
+    ClienteDto toDto(Usuario cliente);
 
     /**
      * Mapea un ClienteDto a una entidad Cliente, ignorando el campo ID.
@@ -65,7 +65,7 @@ public interface ClienteMapper {
      * @return la entidad Cliente correspondiente sin el ID
      */
     @Mapping(target = "id", ignore = true)
-    Cliente toEntity(ClienteDto clienteDto);
+    Usuario toEntity(ClienteDto clienteDto);
 
     /**
      * Mapea una lista de entidades Cliente a una lista de ClienteDto, ignorando los campos ID.
@@ -74,7 +74,7 @@ public interface ClienteMapper {
      * @return la lista de ClienteDto correspondiente sin IDs
      */
     @Mapping(target = "id", ignore = true)
-    List<ClienteDto> toListDtoSinId(List<Cliente> clientes);
+    List<ClienteDto> toListDtoSinId(List<Usuario> clientes);
 
     /**
      * Mapea una lista de ClienteDto a una lista de entidades Cliente, ignorando los campos ID.
@@ -83,5 +83,5 @@ public interface ClienteMapper {
      * @return la lista de entidades Cliente correspondiente sin IDs
      */
     @Mapping(target = "id", ignore = true)
-    List<Cliente> toListEntitySinId(List<ClienteDto> clienteDtos);
+    List<Usuario> toListEntitySinId(List<ClienteDto> clienteDtos);
 }
