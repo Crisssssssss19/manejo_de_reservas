@@ -1,7 +1,7 @@
 package com.cris.manejo_de_reservas.services.cliente;
 
 import com.cris.manejo_de_reservas.dto.ClienteDto;
-import com.cris.manejo_de_reservas.entities.Cliente;
+import com.cris.manejo_de_reservas.entities.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,9 +1,9 @@
 package com.cris.manejo_de_reservas.mapper;
 
 import com.cris.manejo_de_reservas.dto.ReservaDto;
-import com.cris.manejo_de_reservas.entities.Cliente;
 import com.cris.manejo_de_reservas.entities.Pasajero;
 import com.cris.manejo_de_reservas.entities.Reserva;
+import com.cris.manejo_de_reservas.entities.Usuario;
 import com.cris.manejo_de_reservas.entities.Vuelo;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-08T18:39:20-0500",
+    date = "2024-11-15T13:28:29-0500",
     comments = "version: 1.6.2, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
@@ -26,23 +26,14 @@ public class ReservaMapperImpl implements ReservaMapper {
         }
 
         Long id = null;
-        List<Cliente> clientes = null;
-        List<Vuelo> vuelos = null;
-        Pasajero id_reserva = null;
 
-        id = reserva.getId();
-        List<Cliente> list = reserva.getClientes();
-        if ( list != null ) {
-            clientes = new ArrayList<Cliente>( list );
-        }
-        List<Vuelo> list1 = reserva.getVuelos();
-        if ( list1 != null ) {
-            vuelos = new ArrayList<Vuelo>( list1 );
-        }
-        id_reserva = reserva.getId_reserva();
+        id = reserva.id;
 
         Date frechaReserva = null;
         Integer numeroDePasajeros = null;
+        List<Usuario> clientes = null;
+        List<Vuelo> vuelos = null;
+        Pasajero id_reserva = null;
 
         ReservaDto reservaDto = new ReservaDto( id, frechaReserva, numeroDePasajeros, clientes, vuelos, id_reserva );
 
@@ -57,16 +48,7 @@ public class ReservaMapperImpl implements ReservaMapper {
 
         Reserva reserva = new Reserva();
 
-        reserva.setId( reservaDto.id() );
-        List<Cliente> list = reservaDto.clientes();
-        if ( list != null ) {
-            reserva.setClientes( new ArrayList<Cliente>( list ) );
-        }
-        List<Vuelo> list1 = reservaDto.vuelos();
-        if ( list1 != null ) {
-            reserva.setVuelos( new ArrayList<Vuelo>( list1 ) );
-        }
-        reserva.setId_reserva( reservaDto.id_reserva() );
+        reserva.id = reservaDto.id();
 
         return reserva;
     }
@@ -105,23 +87,12 @@ public class ReservaMapperImpl implements ReservaMapper {
             return null;
         }
 
-        List<Cliente> clientes = null;
-        List<Vuelo> vuelos = null;
-        Pasajero id_reserva = null;
-
-        List<Cliente> list = reserva.getClientes();
-        if ( list != null ) {
-            clientes = new ArrayList<Cliente>( list );
-        }
-        List<Vuelo> list1 = reserva.getVuelos();
-        if ( list1 != null ) {
-            vuelos = new ArrayList<Vuelo>( list1 );
-        }
-        id_reserva = reserva.getId_reserva();
-
         Long id = null;
         Date frechaReserva = null;
         Integer numeroDePasajeros = null;
+        List<Usuario> clientes = null;
+        List<Vuelo> vuelos = null;
+        Pasajero id_reserva = null;
 
         ReservaDto reservaDto = new ReservaDto( id, frechaReserva, numeroDePasajeros, clientes, vuelos, id_reserva );
 
@@ -135,16 +106,6 @@ public class ReservaMapperImpl implements ReservaMapper {
         }
 
         Reserva reserva = new Reserva();
-
-        List<Cliente> list = reservaDto.clientes();
-        if ( list != null ) {
-            reserva.setClientes( new ArrayList<Cliente>( list ) );
-        }
-        List<Vuelo> list1 = reservaDto.vuelos();
-        if ( list1 != null ) {
-            reserva.setVuelos( new ArrayList<Vuelo>( list1 ) );
-        }
-        reserva.setId_reserva( reservaDto.id_reserva() );
 
         return reserva;
     }
@@ -183,23 +144,14 @@ public class ReservaMapperImpl implements ReservaMapper {
         }
 
         Long id = null;
-        List<Cliente> clientes = null;
-        List<Vuelo> vuelos = null;
-        Pasajero id_reserva = null;
 
-        id = reserva.getId();
-        List<Cliente> list = reserva.getClientes();
-        if ( list != null ) {
-            clientes = new ArrayList<Cliente>( list );
-        }
-        List<Vuelo> list1 = reserva.getVuelos();
-        if ( list1 != null ) {
-            vuelos = new ArrayList<Vuelo>( list1 );
-        }
-        id_reserva = reserva.getId_reserva();
+        id = reserva.id;
 
         Date frechaReserva = null;
         Integer numeroDePasajeros = null;
+        List<Usuario> clientes = null;
+        List<Vuelo> vuelos = null;
+        Pasajero id_reserva = null;
 
         ReservaDto reservaDto = new ReservaDto( id, frechaReserva, numeroDePasajeros, clientes, vuelos, id_reserva );
 
