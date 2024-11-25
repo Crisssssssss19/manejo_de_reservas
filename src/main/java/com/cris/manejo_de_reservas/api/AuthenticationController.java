@@ -49,7 +49,7 @@ public class AuthenticationController {
         UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(role -> role.getAuthority()).collect(Collectors.toList());
-        return ResponseEntity.ok(new JwtResponse(jwtToken, "Bearer", userDetails.getUsername(), roles));
+        return ResponseEntity.ok(new JwtResponse(jwtToken, "Bearer", userDetails.getId() ,userDetails.getUsername(), roles));
     }
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest sRequest){

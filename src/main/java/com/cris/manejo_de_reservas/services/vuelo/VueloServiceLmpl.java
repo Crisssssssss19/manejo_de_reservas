@@ -40,8 +40,8 @@ public class VueloServiceLmpl implements VueloService {
     @Override
     public Optional<VueloDto> actualizarVuelo(Long id, VueloDto vuelo) {
         return Optional.of(vueloMapper.toIdDto(vueloRepository.findById(id).map( vueloOld ->{
-            vueloOld.setOrigen(vuelo.origen());
-            vueloOld.setDestino(vuelo.destino());
+            vueloOld.setId_origen(vuelo.origen());
+            vueloOld.setId_destino(vuelo.destino());
             vueloOld.setFechaDeSalida(vuelo.fechaDeSalida());
             vueloOld.setHoraDeSalida(vuelo.horaDeSalida());
             vueloOld.setDuracion(vuelo.duracion());

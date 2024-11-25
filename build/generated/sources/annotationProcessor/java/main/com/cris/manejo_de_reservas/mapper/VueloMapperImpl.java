@@ -3,6 +3,7 @@ package com.cris.manejo_de_reservas.mapper;
 import com.cris.manejo_de_reservas.dto.VueloDto;
 import com.cris.manejo_de_reservas.entities.Aerolinea;
 import com.cris.manejo_de_reservas.entities.Aeropuerto;
+import com.cris.manejo_de_reservas.entities.Locacion;
 import com.cris.manejo_de_reservas.entities.Reserva;
 import com.cris.manejo_de_reservas.entities.Vuelo;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-15T13:28:30-0500",
+    date = "2024-11-19T13:44:02-0500",
     comments = "version: 1.6.2, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
@@ -29,8 +30,8 @@ public class VueloMapperImpl implements VueloMapper {
 
         id = vuelo.id;
 
-        String origen = null;
-        String destino = null;
+        Locacion origen = null;
+        Locacion destino = null;
         Date fechaDeSalida = null;
         Date horaDeSalida = null;
         Integer duracion = null;
@@ -92,8 +93,8 @@ public class VueloMapperImpl implements VueloMapper {
         }
 
         Long id = null;
-        String origen = null;
-        String destino = null;
+        Locacion origen = null;
+        Locacion destino = null;
         Date fechaDeSalida = null;
         Date horaDeSalida = null;
         Integer duracion = null;
@@ -155,8 +156,8 @@ public class VueloMapperImpl implements VueloMapper {
 
         id = vuelo.id;
 
-        String origen = null;
-        String destino = null;
+        Locacion origen = null;
+        Locacion destino = null;
         Date fechaDeSalida = null;
         Date horaDeSalida = null;
         Integer duracion = null;

@@ -65,7 +65,7 @@ public class ClienteController{
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteClinete(@PathVariable Long id){
+    public ResponseEntity deleteClinete(@PathVariable("id") Long id){
         clienteService.borrarCliente(id);
         return ResponseEntity.noContent()
                 .build();
