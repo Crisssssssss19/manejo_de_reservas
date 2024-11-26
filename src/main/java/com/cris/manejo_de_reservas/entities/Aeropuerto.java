@@ -28,7 +28,7 @@ public class Aeropuerto {
     @Column(nullable = false)
     private String pais;
 
-    @OneToMany(mappedBy = "aeropuerto")
+    @OneToMany(mappedBy = "aeropuerto", fetch = FetchType.EAGER)
     private List<Vuelo> vuelo;
 
   }

@@ -56,7 +56,7 @@ public class Vuelo {
     private Aerolinea aerolinea;
 
     /** muchas reserva tiene muchos vuelos y muchos vuelos muchas reservas*/
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "rutas",
             joinColumns = @JoinColumn(name = "id_vuelo", referencedColumnName = "id"),

@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "locaciones")
 public class Locacion {
     @Id

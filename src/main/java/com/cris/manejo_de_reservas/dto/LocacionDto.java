@@ -1,4 +1,12 @@
 package com.cris.manejo_de_reservas.dto;
 
-public record LocacionDto(Long id, String nombre, String pais, String siglas) {
+import lombok.Data;
+
+@Data
+public class LocacionDto{
+
+    private Long id;
+    private String nombre;
+    private String pais;
+    private String siglas;
 }

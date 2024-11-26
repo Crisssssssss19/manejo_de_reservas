@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-26T02:44:02-0500",
+    date = "2024-11-26T06:15:42-0500",
     comments = "version: 1.6.2, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
@@ -26,19 +26,14 @@ public class ReservaMapperImpl implements ReservaMapper {
         }
 
         Long id = null;
-        List<Vuelo> vuelos = null;
-        Pasajero id_reserva = null;
 
-        id = reserva.getId();
-        List<Vuelo> list = reserva.getVuelos();
-        if ( list != null ) {
-            vuelos = new ArrayList<Vuelo>( list );
-        }
-        id_reserva = reserva.getId_reserva();
+        id = reserva.id;
 
         Date frechaReserva = null;
         Integer numeroDePasajeros = null;
         List<Usuario> clientes = null;
+        List<Vuelo> vuelos = null;
+        Pasajero id_reserva = null;
 
         ReservaDto reservaDto = new ReservaDto( id, frechaReserva, numeroDePasajeros, clientes, vuelos, id_reserva );
 
@@ -53,12 +48,7 @@ public class ReservaMapperImpl implements ReservaMapper {
 
         Reserva reserva = new Reserva();
 
-        reserva.setId( reservaDto.id() );
-        List<Vuelo> list = reservaDto.vuelos();
-        if ( list != null ) {
-            reserva.setVuelos( new ArrayList<Vuelo>( list ) );
-        }
-        reserva.setId_reserva( reservaDto.id_reserva() );
+        reserva.id = reservaDto.id();
 
         return reserva;
     }
@@ -97,19 +87,12 @@ public class ReservaMapperImpl implements ReservaMapper {
             return null;
         }
 
-        List<Vuelo> vuelos = null;
-        Pasajero id_reserva = null;
-
-        List<Vuelo> list = reserva.getVuelos();
-        if ( list != null ) {
-            vuelos = new ArrayList<Vuelo>( list );
-        }
-        id_reserva = reserva.getId_reserva();
-
         Long id = null;
         Date frechaReserva = null;
         Integer numeroDePasajeros = null;
         List<Usuario> clientes = null;
+        List<Vuelo> vuelos = null;
+        Pasajero id_reserva = null;
 
         ReservaDto reservaDto = new ReservaDto( id, frechaReserva, numeroDePasajeros, clientes, vuelos, id_reserva );
 
@@ -123,12 +106,6 @@ public class ReservaMapperImpl implements ReservaMapper {
         }
 
         Reserva reserva = new Reserva();
-
-        List<Vuelo> list = reservaDto.vuelos();
-        if ( list != null ) {
-            reserva.setVuelos( new ArrayList<Vuelo>( list ) );
-        }
-        reserva.setId_reserva( reservaDto.id_reserva() );
 
         return reserva;
     }
@@ -167,19 +144,14 @@ public class ReservaMapperImpl implements ReservaMapper {
         }
 
         Long id = null;
-        List<Vuelo> vuelos = null;
-        Pasajero id_reserva = null;
 
-        id = reserva.getId();
-        List<Vuelo> list = reserva.getVuelos();
-        if ( list != null ) {
-            vuelos = new ArrayList<Vuelo>( list );
-        }
-        id_reserva = reserva.getId_reserva();
+        id = reserva.id;
 
         Date frechaReserva = null;
         Integer numeroDePasajeros = null;
         List<Usuario> clientes = null;
+        List<Vuelo> vuelos = null;
+        Pasajero id_reserva = null;
 
         ReservaDto reservaDto = new ReservaDto( id, frechaReserva, numeroDePasajeros, clientes, vuelos, id_reserva );
 
@@ -193,12 +165,7 @@ public class ReservaMapperImpl implements ReservaMapper {
 
         Reserva reserva = new Reserva();
 
-        reserva.setId( reservaDto.id() );
-        List<Vuelo> list = reservaDto.vuelos();
-        if ( list != null ) {
-            reserva.setVuelos( new ArrayList<Vuelo>( list ) );
-        }
-        reserva.setId_reserva( reservaDto.id_reserva() );
+        reserva.id = reservaDto.id();
 
         return reserva;
     }

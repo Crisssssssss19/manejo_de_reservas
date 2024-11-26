@@ -28,7 +28,7 @@ public class Pasajero {
     @Column(nullable = false)
     private Integer telefono;
 
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     @JoinColumn(name = "id_reserva", referencedColumnName = "id")
     private Reserva reserva_pasajero;
 }

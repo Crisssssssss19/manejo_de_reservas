@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-26T02:44:02-0500",
+    date = "2024-11-26T06:15:42-0500",
     comments = "version: 1.6.2, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
@@ -23,17 +23,13 @@ public class PasajeroMapperImpl implements PasajeroMapper {
         }
 
         Long id = null;
+
+        id = pasajero.id;
+
         String nombre = null;
         String apellido = null;
         Integer cc = null;
         Integer telefono = null;
-
-        id = pasajero.getId();
-        nombre = pasajero.getNombre();
-        apellido = pasajero.getApellido();
-        cc = pasajero.getCc();
-        telefono = pasajero.getTelefono();
-
         Reserva reserva = null;
 
         PasajeroDto pasajeroDto = new PasajeroDto( id, nombre, apellido, cc, telefono, reserva );
@@ -49,11 +45,7 @@ public class PasajeroMapperImpl implements PasajeroMapper {
 
         Pasajero pasajero = new Pasajero();
 
-        pasajero.setId( pasajeroDto.id() );
-        pasajero.setNombre( pasajeroDto.nombre() );
-        pasajero.setApellido( pasajeroDto.apellido() );
-        pasajero.setCc( pasajeroDto.cc() );
-        pasajero.setTelefono( pasajeroDto.telefono() );
+        pasajero.id = pasajeroDto.id();
 
         return pasajero;
     }
@@ -92,17 +84,11 @@ public class PasajeroMapperImpl implements PasajeroMapper {
             return null;
         }
 
+        Long id = null;
         String nombre = null;
         String apellido = null;
         Integer cc = null;
         Integer telefono = null;
-
-        nombre = pasajero.getNombre();
-        apellido = pasajero.getApellido();
-        cc = pasajero.getCc();
-        telefono = pasajero.getTelefono();
-
-        Long id = null;
         Reserva reserva = null;
 
         PasajeroDto pasajeroDto = new PasajeroDto( id, nombre, apellido, cc, telefono, reserva );
@@ -117,11 +103,6 @@ public class PasajeroMapperImpl implements PasajeroMapper {
         }
 
         Pasajero pasajero = new Pasajero();
-
-        pasajero.setNombre( pasajeroDto.nombre() );
-        pasajero.setApellido( pasajeroDto.apellido() );
-        pasajero.setCc( pasajeroDto.cc() );
-        pasajero.setTelefono( pasajeroDto.telefono() );
 
         return pasajero;
     }
@@ -160,17 +141,13 @@ public class PasajeroMapperImpl implements PasajeroMapper {
         }
 
         Long id = null;
+
+        id = pasajero.id;
+
         String nombre = null;
         String apellido = null;
         Integer cc = null;
         Integer telefono = null;
-
-        id = pasajero.getId();
-        nombre = pasajero.getNombre();
-        apellido = pasajero.getApellido();
-        cc = pasajero.getCc();
-        telefono = pasajero.getTelefono();
-
         Reserva reserva = null;
 
         PasajeroDto pasajeroDto = new PasajeroDto( id, nombre, apellido, cc, telefono, reserva );
@@ -185,11 +162,7 @@ public class PasajeroMapperImpl implements PasajeroMapper {
 
         Pasajero pasajero = new Pasajero();
 
-        pasajero.setId( pasajeroDto.id() );
-        pasajero.setNombre( pasajeroDto.nombre() );
-        pasajero.setApellido( pasajeroDto.apellido() );
-        pasajero.setCc( pasajeroDto.cc() );
-        pasajero.setTelefono( pasajeroDto.telefono() );
+        pasajero.id = pasajeroDto.id();
 
         return pasajero;
     }

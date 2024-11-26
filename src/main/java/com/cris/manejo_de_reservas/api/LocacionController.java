@@ -31,7 +31,7 @@ public class LocacionController {
         LocacionDto newLocacion = locacionService.guardar(locacionDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")//Agrega un id
-                .buildAndExpand(newLocacion.id())//Construye la url
+                .buildAndExpand(newLocacion.getId())//Construye la url
                 .toUri();
         return ResponseEntity.created(location).body(newLocacion);
     }

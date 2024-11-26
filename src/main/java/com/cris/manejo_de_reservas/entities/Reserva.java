@@ -34,14 +34,14 @@ public class Reserva {
     private Integer numero_de_pasajeros;
 
     /**Muchos usuarios reservan un vuelo*/
-    @OneToMany(mappedBy = "reserva",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reserva",fetch = FetchType.EAGER)
     private List<Usuario> usuario;
 
     /** muchas reserva tiene muchos vuelos y muchos vuelos muchas reservas*/
-    @ManyToMany(mappedBy = "reservas")
+    @ManyToMany(mappedBy = "reservas", fetch = FetchType.EAGER)
     private List<Vuelo> vuelos;
 
-    @OneToOne(mappedBy = "reserva_pasajero")
+    @ManyToOne
     private Pasajero id_reserva;
 
 }
