@@ -54,7 +54,7 @@ public class AeropuertoController {
         AeropuertoDto newAeropuerto = aeropuertoService.guardarAeropuerto(aeropuerto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")//Agrega un id
-                .buildAndExpand(newAeropuerto.id())
+                .buildAndExpand(newAeropuerto.getId())
                 .toUri();
         return ResponseEntity.created(location).body(newAeropuerto);
     }

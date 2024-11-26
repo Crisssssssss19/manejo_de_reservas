@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/0.1/reservas")
+@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 public class ReservaController {
     private final ReservaService reservaService;
@@ -47,19 +50,29 @@ public class ReservaController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservaDto> crearReserva(@RequestBody ReservaDto reserva){
+    public ResponseEntity<ReservaDto> crearReserva(@RequestBody ReservaDto reserva) {
+        // Validar y asignar una fecha de reserva si no viene en el DTO
+        if (reserva.getFrechaReserva() == null) {
+            reserva.setFrechaReserva(new Date()); // Asignar la fecha actual
+        }
         return createNewReserva(reserva);
     }
 
-
     private ResponseEntity<ReservaDto> createNewReserva(ReservaDto reserva) {
+        // Guardar la reserva utilizando el servicio
         ReservaDto newReserva = reservaService.guardarReserva(reserva);
+
+        // Construir la URI para la nueva reserva
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")//Agrega un id
-                .buildAndExpand(newReserva.id())//Construye la url
+                .path("/{id}") // Agregar el ID
+                .buildAndExpand(newReserva.getId()) // Construir la URL con el ID
                 .toUri();
+
+        // Retornar la respuesta con el estado HTTP 201 y el cuerpo de la nueva reserva
         return ResponseEntity.created(location).body(newReserva);
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteReserva(@PathVariable Long id){

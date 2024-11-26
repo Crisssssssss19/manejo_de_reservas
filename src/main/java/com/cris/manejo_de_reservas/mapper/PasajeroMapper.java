@@ -9,82 +9,73 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface PasajeroMapper {
 
     PasajeroMapper INSTANCE = Mappers.getMapper(PasajeroMapper.class);
 
-    /**
-     * Mapea una entidad Pasajero a un PasajeroDto, incluyendo el ID.
-     *
-     * @param pasajero la entidad Pasajero
-     * @return el PasajeroDto correspondiente
-     */
-    @Named("conId")
-    PasajeroDto toIdDto(Pasajero pasajero);
+    // Mapeo de Pasajero a PasajeroDto
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "nombre", target = "nombre")
+    @Mapping(source = "apellido", target = "apellido")
+    @Mapping(source = "cc", target = "cc")
+    @Mapping(source = "telefono", target = "telefono")
+    @Mapping(source = "reserva", target = "reserva")  // Mapeo de Reserva a ReservaDto
+    default PasajeroDto toPasajeroDto(Pasajero pasajero) {
+        if (pasajero == null) return null;
 
-    /**
-     * Mapea un PasajeroDto a una entidad Pasajero, incluyendo el ID.
-     *
-     * @param pasajeroDto el DTO de Pasajero
-     * @return la entidad Pasajero correspondiente
-     */
-    @Named("conId")
-    Pasajero toIdEntity(PasajeroDto pasajeroDto);
+        PasajeroDto dto = new PasajeroDto();
+        dto.setId(pasajero.getId());
+        dto.setNombre(pasajero.getNombre());
+        dto.setApellido(pasajero.getApellido());
+        dto.setCc(pasajero.getCc());
+        dto.setTelefono(pasajero.getTelefono());
 
-    /**
-     * Mapea una lista de entidades Pasajero a una lista de PasajeroDto, incluyendo los IDs.
-     *
-     * @param pasajeros la lista de entidades Pasajero
-     * @return la lista de PasajeroDto correspondiente
-     */
-    List<PasajeroDto> toListDto(List<Pasajero> pasajeros);
+        // Si existe una reserva, mapeamos la reserva
+        if (pasajero.getReserva_pasajero() != null) {
+            dto.setReserva(ReservaMapper.INSTANCE.toReservaDto(pasajero.getReserva_pasajero()));  // Usamos el mapper de Reserva
+        }
 
-    /**
-     * Mapea una lista de PasajeroDto a una lista de entidades Pasajero, incluyendo los IDs.
-     *
-     * @param pasajeroDtos la lista de PasajeroDto
-     * @return la lista de entidades Pasajero correspondiente
-     */
-    List<Pasajero> toListEntity(List<PasajeroDto> pasajeroDtos);
+        return dto;
+    }
 
-    /**
-     * Mapea una entidad Pasajero a un PasajeroDto, ignorando el campo ID.
-     *
-     * @param pasajero la entidad Pasajero
-     * @return el PasajeroDto correspondiente sin el ID
-     */
-    @Named("sinId")
-    @Mapping(target = "id", ignore = true)
-    PasajeroDto toDto(Pasajero pasajero);
+    // Mapeo de PasajeroDto a Pasajero
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "nombre", target = "nombre")
+    @Mapping(source = "apellido", target = "apellido")
+    @Mapping(source = "cc", target = "cc")
+    @Mapping(source = "telefono", target = "telefono")
+    @Mapping(source = "reserva", target = "reserva")  // Mapeo de ReservaDto a Reserva
+    default Pasajero toPasajeroEntity(PasajeroDto pasajeroDto) {
+        if (pasajeroDto == null) return null;
 
-    /**
-     * Mapea un PasajeroDto a una entidad Pasajero, ignorando el campo ID.
-     *
-     * @param pasajeroDto el DTO de Pasajero
-     * @return la entidad Pasajero correspondiente sin el ID
-     */
-    @Named("sinId")
-    @Mapping(target = "id", ignore = true)
-    Pasajero toEntitySinId(PasajeroDto pasajeroDto);
+        Pasajero pasajero = new Pasajero();
+        pasajero.setId(pasajeroDto.getId());
+        pasajero.setNombre(pasajeroDto.getNombre());
+        pasajero.setApellido(pasajeroDto.getApellido());
+        pasajero.setCc(pasajeroDto.getCc());
+        pasajero.setTelefono(pasajeroDto.getTelefono());
 
-    /**
-     * Mapea una lista de entidades Pasajero a una lista de PasajeroDto, ignorando los campos ID.
-     *
-     * @param pasajeros la lista de entidades Pasajero
-     * @return la lista de PasajeroDto correspondiente sin IDs
-     */
-    @IterableMapping(qualifiedByName = "sinId")
-    List<PasajeroDto> toListDtoSinId(List<Pasajero> pasajeros);
+        // Si existe una reservaDto, mapeamos la reserva
+        if (pasajeroDto.getReserva() != null) {
+            pasajero.setReserva_pasajero(ReservaMapper.INSTANCE.toReservaEntity(pasajeroDto.getReserva()));  // Usamos el mapper de Reserva
+        }
 
-    /**
-     * Mapea una lista de PasajeroDto a una lista de entidades Pasajero, ignorando los campos ID.
-     *
-     * @param pasajeroDtos la lista de PasajeroDto
-     * @return la lista de entidades Pasajero correspondiente sin IDs
-     */
-    @IterableMapping(qualifiedByName = "sinId")
-    List<Pasajero> toListEntitySinId(List<PasajeroDto> pasajeroDtos);
+        return pasajero;
+    }
+
+    // Mapeo de una lista de Pasajero a lista de PasajeroDto
+    default List<PasajeroDto> toDtoList(List<Pasajero> pasajeros) {
+        if (pasajeros == null || pasajeros.isEmpty()) return List.of();
+        return pasajeros.stream().map(this::toPasajeroDto).collect(Collectors.toList());
+    }
+
+    // Mapeo de una lista de PasajeroDto a lista de Pasajero
+    default List<Pasajero> toEntityList(List<PasajeroDto> pasajeroDtos) {
+        if (pasajeroDtos == null || pasajeroDtos.isEmpty()) return List.of();
+        return pasajeroDtos.stream().map(this::toPasajeroEntity).collect(Collectors.toList());
+    }
 }
 

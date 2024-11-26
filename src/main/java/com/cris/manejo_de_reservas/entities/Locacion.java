@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,11 +19,13 @@ public class Locacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @OneToOne(mappedBy = "id_origen")
-    private Vuelo origen;
+    // Relación uno a muchos: Esta locación puede ser origen de muchos vuelos
+    @OneToMany(mappedBy = "id_origen")
+    private List<Vuelo> vuelosOrigen;
 
-    @OneToOne(mappedBy = "id_destino")
-    private Vuelo destino;
+    // Relación uno a muchos: Esta locación puede ser destino de muchos vuelos
+    @OneToMany(mappedBy = "id_destino")
+    private List<Vuelo> vuelosDestino;
 
     @Column(nullable = false)
     private String nombre;

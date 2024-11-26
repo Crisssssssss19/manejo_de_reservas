@@ -1,91 +1,79 @@
 package com.cris.manejo_de_reservas.mapper;
 
+
 import com.cris.manejo_de_reservas.dto.VueloDto;
+
 import com.cris.manejo_de_reservas.entities.Vuelo;
-import org.mapstruct.IterableMapping;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Mapper(componentModel = "spring")
 public interface VueloMapper {
 
     VueloMapper INSTANCE = Mappers.getMapper(VueloMapper.class);
 
-    /**
-     * Mapea una entidad Vuelo a un VueloDto, incluyendo el ID.
-     *
-     * @param vuelo la entidad Vuelo
-     * @return el VueloDto correspondiente
-     */
-    @Named("conId")
-    VueloDto toIdDto(Vuelo vuelo);
+    // Mapeo de Vuelo a VueloDto
+    @Mapping(source = "id", target = "id")
+    default VueloDto toVueloDto(Vuelo vuelo) {
+        if (vuelo == null)
+        {
+            return null;
+        };
 
-    /**
-     * Mapea un VueloDto a una entidad Vuelo, incluyendo el ID.
-     *
-     * @param vueloDto el DTO de Vuelo
-     * @return la entidad Vuelo correspondiente
-     */
-    @Named("conId")
-    Vuelo toIdEntity(VueloDto vueloDto);
+        VueloDto dto = new VueloDto();
+        dto.setId(vuelo.getId());
+        dto.setFechaDeSalida(vuelo.getFechaDeSalida());
+        dto.setDuracion(vuelo.getDuracion());
+        dto.setCapacidad(vuelo.getCapacidad());
+        //--------------------------------------------------------------------------
+        dto.setOrigen(LocacionMapper.INSTANCE.toIdDto(vuelo.getId_origen()));
+        dto.setDestino(LocacionMapper.INSTANCE.toIdDto(vuelo.getId_destino()));
+        dto.setAeropuerto(AeropuertoMapper.INSTANCE.toIdDto(vuelo.getAeropuerto()));
+        dto.setAerolinea(AerolineaMapper.INSTANCE.toIdDto(vuelo.getAerolinea()));
+        return dto;
+    }
 
-    /**
-     * Mapea una lista de entidades Vuelo a una lista de VueloDto, incluyendo los IDs.
-     *
-     * @param vuelos la lista de entidades Vuelo
-     * @return la lista de VueloDto correspondiente
-     */
-    @IterableMapping(qualifiedByName = "conId")
-    List<VueloDto> toListDto(List<Vuelo> vuelos);
+    // Mapeo de VueloDto a Vuelo
+    @Mapping(source = "id", target = "id")
+    default Vuelo toVueloEntity(VueloDto vueloDto) {
+        if (vueloDto == null) {
+            return null;
+        };
 
-    /**
-     * Mapea una lista de VueloDto a una lista de entidades Vuelo, incluyendo los IDs.
-     *
-     * @param vueloDtos la lista de VueloDto
-     * @return la lista de entidades Vuelo correspondiente
-     */
-    List<Vuelo> toListEntity(List<VueloDto> vueloDtos);
+        Vuelo vuelo = new Vuelo();
+        vuelo.setId(vueloDto.getId());
+        vuelo.setFechaDeSalida(vueloDto.getFechaDeSalida());
+        vuelo.setDuracion(vueloDto.getDuracion());
+        vuelo.setCapacidad(vueloDto.getCapacidad());
+        vuelo.setId_origen(LocacionMapper.INSTANCE.toIdEntity(vueloDto.getOrigen()));
+        vuelo.setId_destino(LocacionMapper.INSTANCE.toIdEntity(vueloDto.getDestino()));
+        vuelo.setAeropuerto(AeropuertoMapper.INSTANCE.toIdEntity(vueloDto.getAeropuerto()));
+        vuelo.setAerolinea(AerolineaMapper.INSTANCE.toIdEntity(vueloDto.getAerolinea()));
+        return vuelo;
+    }
+    default List<VueloDto> toDtoList(List<Vuelo> vuelos) {
+        if (vuelos == null || vuelos.isEmpty()) return new ArrayList<>(); // Lista mutable vacía
+        List<VueloDto> vueloDtos = new ArrayList<>();
+        for (Vuelo vuelo : vuelos) {
+            vueloDtos.add(this.toVueloDto(vuelo)); // Convertimos cada elemento y lo agregamos
+        }
+        return vueloDtos;
+    }
 
-    /**
-     * Mapea una entidad Vuelo a un VueloDto, ignorando el campo ID.
-     *
-     * @param vuelo la entidad Vuelo
-     * @return el VueloDto correspondiente sin el ID
-     */
-    @Named("sinId")
-    @Mapping(target = "id", ignore = true)
-    VueloDto toDto(Vuelo vuelo);
+    default List<Vuelo> toEntityList(List<VueloDto> vueloDtos) {
+        if (vueloDtos == null || vueloDtos.isEmpty()) return new ArrayList<>(); // Lista mutable vacía
+        List<Vuelo> vuelos = new ArrayList<>();
+        for (VueloDto vueloDto : vueloDtos) {
+            vuelos.add(this.toVueloEntity(vueloDto)); // Convertimos cada elemento y lo agregamos
+        }
+        return vuelos;
+    }
 
-    /**
-     * Mapea un VueloDto a una entidad Vuelo, ignorando el campo ID.
-     *
-     * @param vueloDto el DTO de Vuelo
-     * @return la entidad Vuelo correspondiente sin el ID
-     */
-    @Named("sinId")
-    @Mapping(target = "id", ignore = true)
-    Vuelo toEntitySinId(VueloDto vueloDto);
-
-    /**
-     * Mapea una lista de entidades Vuelo a una lista de VueloDto, ignorando los campos ID.
-     *
-     * @param vuelos la lista de entidades Vuelo
-     * @return la lista de VueloDto correspondiente sin IDs
-     */
-    @IterableMapping(qualifiedByName = "sinId")
-    List<VueloDto> toListDtoSinId(List<Vuelo> vuelos);
-
-    /**
-     * Mapea una lista de VueloDto a una lista de entidades Vuelo, ignorando los campos ID.
-     *
-     * @param vueloDtos la lista de VueloDto
-     * @return la lista de entidades Vuelo correspondiente sin IDs
-     */
-    @IterableMapping(qualifiedByName = "sinId")
-    List<Vuelo> toListEntitySinId(List<VueloDto> vueloDtos);
 }
-

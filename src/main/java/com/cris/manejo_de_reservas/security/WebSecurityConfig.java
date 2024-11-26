@@ -5,6 +5,7 @@ import com.cris.manejo_de_reservas.security.jwt.exeption.AuthEntryPointJwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -50,8 +51,10 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unathorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                );
+                                .requestMatchers(HttpMethod.POST, "api/0.1/**").permitAll()
+                                .anyRequest().authenticated()
+                        );
+
         http.authenticationProvider(authenticationProvider());
         http.cors(Customizer.withDefaults());
         http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);

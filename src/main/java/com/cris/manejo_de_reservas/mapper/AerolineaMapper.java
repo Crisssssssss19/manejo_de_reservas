@@ -1,89 +1,63 @@
 package com.cris.manejo_de_reservas.mapper;
 
 import com.cris.manejo_de_reservas.dto.AerolineaDto;
+import com.cris.manejo_de_reservas.dto.LocacionDto;
 import com.cris.manejo_de_reservas.entities.Aerolinea;
+import com.cris.manejo_de_reservas.entities.Locacion;
+import com.cris.manejo_de_reservas.entities.Vuelo;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface AerolineaMapper {
 
     AerolineaMapper INSTANCE = Mappers.getMapper(AerolineaMapper.class);
 
-    /**
-     * Mapea una entidad Aerolinea a un AerolineaDto, incluyendo el ID.
-     *
-     * @param aerolinea la entidad Aerolinea
-     * @return el AerolineaDto correspondiente
-     */
-    @Named("conId")
-    AerolineaDto toIdDto(Aerolinea aerolinea);
+    @Mapping(source = "vuelos", target = "vuelos")
+    @Mapping(source = "id", target = "id")
+    default AerolineaDto toIdDto(Aerolinea aerolinea) {
+        if (aerolinea == null) return null;
 
-    /**
-     * Mapea un AerolineaDto a una entidad Aerolinea, incluyendo el ID.
-     *
-     * @param aerolineaDto el DTO de Aerolinea
-     * @return la entidad Aerolinea correspondiente
-     */
-    @Named("conId")
-    Aerolinea toIdEntity(AerolineaDto aerolineaDto);
+        AerolineaDto dto = new AerolineaDto();
+        dto.setId(aerolinea.getId());
+        dto.setNombre(aerolinea.getNombre());
+        dto.setCodigo_de_aerolinea(aerolinea.getCodigo_de_aerolinea());
+        dto.setPais_de_origen(aerolinea.getPais_de_origen());
+//        for(Vuelo vuelo: aerolinea.getVuelos()){
+//            dto.getVuelos().add(VueloMapper.INSTANCE);
+//        }
 
-    /**
-     * Mapea una lista de entidades Aerolinea a una lista de AerolineaDto, incluyendo los IDs.
-     *
-     * @param aerolineas la lista de entidades Aerolinea
-     * @return la lista de AerolineaDto correspondiente
-     */
-    List<AerolineaDto> toListDto(List<Aerolinea> aerolineas);
+        return dto;
+    }
 
-    /**
-     * Mapea una lista de AerolineaDto a una lista de entidades Aerolinea, incluyendo los IDs.
-     *
-     * @param aerolineaDtos la lista de AerolineaDto
-     * @return la lista de entidades Aerolinea correspondiente
-     */
-    List<Aerolinea> toListEntity(List<AerolineaDto> aerolineaDtos);
+    @Mapping(source = "id", target = "id")
+    default Aerolinea toIdEntity(AerolineaDto aerolineaDto) {
+        if (aerolineaDto == null) return null;
+        Aerolinea aerolinea = new Aerolinea();
+        aerolinea.setId(aerolineaDto.getId());
+        aerolinea.setNombre(aerolineaDto.getNombre());
+        aerolinea.setCodigo_de_aerolinea(aerolineaDto.getCodigo_de_aerolinea());
+        aerolinea.setPais_de_origen(aerolineaDto.getPais_de_origen());
+        return aerolinea;
 
-    /**
-     * Mapea una entidad Aerolinea a un AerolineaDto, ignorando el campo ID.
-     *
-     * @param aerolinea la entidad Aerolinea
-     * @return el AerolineaDto correspondiente sin el ID
-     */
-    @Named("sinId")
-    @Mapping(target = "id", ignore = true)
-    AerolineaDto toDto(Aerolinea aerolinea);
+    }
 
-    /**
-     * Mapea un AerolineaDto a una entidad Aerolinea, ignorando el campo ID.
-     *
-     * @param aerolineaDto el DTO de Aerolinea
-     * @return la entidad Aerolinea correspondiente sin el ID
-     */
-    @Named("sinId")
-    @Mapping(target = "id", ignore = true)
-    Aerolinea toEntity(AerolineaDto aerolineaDto);
+    default List<AerolineaDto> toDtoList(List<Aerolinea> aerolineas) {
+        if (aerolineas == null || aerolineas.isEmpty()) return List.of();
+        return aerolineas.stream().map(this::toIdDto).collect(Collectors.toList());
+    }
 
-    /**
-     * Mapea una lista de entidades Aerolinea a una lista de AerolineaDto, ignorando los campos ID.
-     *
-     * @param aerolineas la lista de entidades Aerolinea
-     * @return la lista de AerolineaDto correspondiente sin IDs
-     */
-    @IterableMapping(qualifiedByName = "sinId")
-    List<AerolineaDto> toListDtoSinId(List<Aerolinea> aerolineas);
-
-    /**
-     * Mapea una lista de AerolineaDto a una lista de entidades Aerolinea, ignorando los campos ID.
-     *
-     * @param aerolineaDtos la lista de AerolineaDto
-     * @return la lista de entidades Aerolinea correspondiente sin IDs
-     */
-    @IterableMapping(qualifiedByName = "sinId")
-    List<Aerolinea> toListEntitySinId(List<AerolineaDto> aerolineaDtos);
+    default List<Aerolinea> toEntityList(List<AerolineaDto> aerolineaDtos) {
+        if (aerolineaDtos == null || aerolineaDtos.isEmpty()) return List.of();
+        return aerolineaDtos.stream().map(this::toIdEntity).collect(Collectors.toList());
+    }
+    
 }

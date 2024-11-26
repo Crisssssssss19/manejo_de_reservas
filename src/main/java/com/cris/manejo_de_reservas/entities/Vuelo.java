@@ -28,13 +28,15 @@ public class Vuelo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_Origen", referencedColumnName = "id")
     private Locacion id_origen;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "id_Destino", referencedColumnName = "id" )
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_Destino", referencedColumnName = "id")
     private Locacion id_destino;
+
+
 
     @Column(name = "fecha_de_salida",nullable = false)
     private Date fechaDeSalida;

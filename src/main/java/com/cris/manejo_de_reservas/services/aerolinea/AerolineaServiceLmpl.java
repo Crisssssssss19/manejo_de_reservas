@@ -18,7 +18,7 @@ public class AerolineaServiceLmpl implements AerolineaService {
 
     @Override
     public AerolineaDto guardarAerolinea(AerolineaDto aerolinea) {
-        return aerolineaMapper.toIdDto(aerolineaRepository.save(aerolineaMapper.toEntity(aerolinea)));
+        return aerolineaMapper.toIdDto(aerolineaRepository.save(aerolineaMapper.toIdEntity(aerolinea)));
     }
 
     @Override
@@ -28,25 +28,25 @@ public class AerolineaServiceLmpl implements AerolineaService {
 
     @Override
     public List<AerolineaDto> buscarAerolinea() {
-        return aerolineaMapper.toListDto(aerolineaRepository.findAll());
+        return aerolineaMapper.toDtoList(aerolineaRepository.findAll());
     }
 
     @Override
     public List<AerolineaDto> buscarAerolineaPorIds(List<Long> ids) {
-        return aerolineaMapper.toListDto(aerolineaRepository.findByIdIn(ids));
+        return aerolineaMapper.toDtoList(aerolineaRepository.findByIdIn(ids));
     }
 
     @Override
     public List<AerolineaDto> buscarAerolineaByNombre(String nombre) {
-        return aerolineaMapper.toListDto(aerolineaRepository.findByNombre(nombre));
+        return aerolineaMapper.toDtoList(aerolineaRepository.findByNombre(nombre));
     }
 
     @Override
     public Optional<AerolineaDto> actualizarAerolinea(Long id, AerolineaDto aerolinea) {
         return Optional.of(aerolineaMapper.toIdDto(aerolineaRepository.findById(id).map(aerolineaOld -> {
-            aerolineaOld.setNombre(aerolinea.nombre());
-            aerolineaOld.setCodigo_de_aerolinea(aerolinea.codigo_de_aerolinea());
-            aerolineaOld.setPais_de_origen(aerolinea.pais_de_origen());
+            aerolineaOld.setNombre(aerolinea.getNombre());
+            aerolineaOld.setCodigo_de_aerolinea(aerolinea.getCodigo_de_aerolinea());
+            aerolineaOld.setPais_de_origen(aerolinea.getPais_de_origen());
             return aerolineaRepository.save(aerolineaOld);
             }).get()));
     }

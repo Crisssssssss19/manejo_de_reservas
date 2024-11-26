@@ -19,32 +19,30 @@ public class VueloServiceLmpl implements VueloService {
 
     @Override
     public VueloDto guardarVuelo(VueloDto vuelo) {
-        return vueloMapper.toIdDto(vueloRepository.save(vueloMapper.toIdEntity(vuelo)));
+        return vueloMapper.toVueloDto(vueloRepository.save(vueloMapper.toVueloEntity(vuelo)));
     }
 
     @Override
     public Optional<VueloDto> buscarVueloPorId(Long id) {
-        return Optional.of(vueloMapper.toIdDto(vueloRepository.findById(id).get()));
+        return Optional.of(vueloMapper.toVueloDto(vueloRepository.findById(id).get()));
     }
 
     @Override
     public List<VueloDto> BuscarVuelo() {
-        return vueloMapper.toListDto(vueloRepository.findAll());
+        return vueloMapper.toDtoList(vueloRepository.findAll());
     }
 
     @Override
     public List<VueloDto> BuscarVueloByIds(List<Long> ids) {
-        return vueloMapper.toListDto(vueloRepository.findByIdIn(ids));
+        return vueloMapper.toDtoList(vueloRepository.findByIdIn(ids));
     }
 
     @Override
     public Optional<VueloDto> actualizarVuelo(Long id, VueloDto vuelo) {
-        return Optional.of(vueloMapper.toIdDto(vueloRepository.findById(id).map( vueloOld ->{
-            vueloOld.setId_origen(vuelo.origen());
-            vueloOld.setId_destino(vuelo.destino());
-            vueloOld.setFechaDeSalida(vuelo.fechaDeSalida());
-            vueloOld.setDuracion(vuelo.duracion());
-            vueloOld.setCapacidad(vuelo.capacidad());
+        return Optional.of(vueloMapper.toVueloDto(vueloRepository.findById(id).map( vueloOld ->{
+            vueloOld.setFechaDeSalida(vuelo.getFechaDeSalida());
+            vueloOld.setDuracion(vuelo.getDuracion());
+            vueloOld.setCapacidad(vuelo.getCapacidad());
             return vueloRepository.save(vueloOld);
         }).get()));
 
