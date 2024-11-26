@@ -22,7 +22,7 @@ public class LocacionServiceImpl implements LocacionService{
 
     @Override
     public List<LocacionDto> traerLocaciones() {
-        return locacionMapper.toLitDto((locacionRepository.findAll()));
+        return locacionMapper.toListDto((locacionRepository.findAll()));
     }
 
     @Override

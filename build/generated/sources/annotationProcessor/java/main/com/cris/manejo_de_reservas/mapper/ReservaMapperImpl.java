@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-19T13:44:03-0500",
+    date = "2024-11-26T02:44:02-0500",
     comments = "version: 1.6.2, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
@@ -26,14 +26,19 @@ public class ReservaMapperImpl implements ReservaMapper {
         }
 
         Long id = null;
+        List<Vuelo> vuelos = null;
+        Pasajero id_reserva = null;
 
-        id = reserva.id;
+        id = reserva.getId();
+        List<Vuelo> list = reserva.getVuelos();
+        if ( list != null ) {
+            vuelos = new ArrayList<Vuelo>( list );
+        }
+        id_reserva = reserva.getId_reserva();
 
         Date frechaReserva = null;
         Integer numeroDePasajeros = null;
         List<Usuario> clientes = null;
-        List<Vuelo> vuelos = null;
-        Pasajero id_reserva = null;
 
         ReservaDto reservaDto = new ReservaDto( id, frechaReserva, numeroDePasajeros, clientes, vuelos, id_reserva );
 
@@ -41,14 +46,19 @@ public class ReservaMapperImpl implements ReservaMapper {
     }
 
     @Override
-    public Reserva toIDEntity(ReservaDto reservaDto) {
+    public Reserva toIdEntity(ReservaDto reservaDto) {
         if ( reservaDto == null ) {
             return null;
         }
 
         Reserva reserva = new Reserva();
 
-        reserva.id = reservaDto.id();
+        reserva.setId( reservaDto.id() );
+        List<Vuelo> list = reservaDto.vuelos();
+        if ( list != null ) {
+            reserva.setVuelos( new ArrayList<Vuelo>( list ) );
+        }
+        reserva.setId_reserva( reservaDto.id_reserva() );
 
         return reserva;
     }
@@ -75,7 +85,7 @@ public class ReservaMapperImpl implements ReservaMapper {
 
         List<Reserva> list = new ArrayList<Reserva>( reservaDtos.size() );
         for ( ReservaDto reservaDto : reservaDtos ) {
-            list.add( toEntity( reservaDto ) );
+            list.add( reservaDtoToReserva( reservaDto ) );
         }
 
         return list;
@@ -87,12 +97,19 @@ public class ReservaMapperImpl implements ReservaMapper {
             return null;
         }
 
+        List<Vuelo> vuelos = null;
+        Pasajero id_reserva = null;
+
+        List<Vuelo> list = reserva.getVuelos();
+        if ( list != null ) {
+            vuelos = new ArrayList<Vuelo>( list );
+        }
+        id_reserva = reserva.getId_reserva();
+
         Long id = null;
         Date frechaReserva = null;
         Integer numeroDePasajeros = null;
         List<Usuario> clientes = null;
-        List<Vuelo> vuelos = null;
-        Pasajero id_reserva = null;
 
         ReservaDto reservaDto = new ReservaDto( id, frechaReserva, numeroDePasajeros, clientes, vuelos, id_reserva );
 
@@ -100,12 +117,18 @@ public class ReservaMapperImpl implements ReservaMapper {
     }
 
     @Override
-    public Reserva toEntity(ReservaDto reservaDto) {
+    public Reserva toEntitySinId(ReservaDto reservaDto) {
         if ( reservaDto == null ) {
             return null;
         }
 
         Reserva reserva = new Reserva();
+
+        List<Vuelo> list = reservaDto.vuelos();
+        if ( list != null ) {
+            reserva.setVuelos( new ArrayList<Vuelo>( list ) );
+        }
+        reserva.setId_reserva( reservaDto.id_reserva() );
 
         return reserva;
     }
@@ -118,7 +141,7 @@ public class ReservaMapperImpl implements ReservaMapper {
 
         List<ReservaDto> list = new ArrayList<ReservaDto>( reservas.size() );
         for ( Reserva reserva : reservas ) {
-            list.add( reservaToReservaDto( reserva ) );
+            list.add( toDto( reserva ) );
         }
 
         return list;
@@ -132,7 +155,7 @@ public class ReservaMapperImpl implements ReservaMapper {
 
         List<Reserva> list = new ArrayList<Reserva>( reservaDtos.size() );
         for ( ReservaDto reservaDto : reservaDtos ) {
-            list.add( toEntity( reservaDto ) );
+            list.add( toEntitySinId( reservaDto ) );
         }
 
         return list;
@@ -144,17 +167,39 @@ public class ReservaMapperImpl implements ReservaMapper {
         }
 
         Long id = null;
+        List<Vuelo> vuelos = null;
+        Pasajero id_reserva = null;
 
-        id = reserva.id;
+        id = reserva.getId();
+        List<Vuelo> list = reserva.getVuelos();
+        if ( list != null ) {
+            vuelos = new ArrayList<Vuelo>( list );
+        }
+        id_reserva = reserva.getId_reserva();
 
         Date frechaReserva = null;
         Integer numeroDePasajeros = null;
         List<Usuario> clientes = null;
-        List<Vuelo> vuelos = null;
-        Pasajero id_reserva = null;
 
         ReservaDto reservaDto = new ReservaDto( id, frechaReserva, numeroDePasajeros, clientes, vuelos, id_reserva );
 
         return reservaDto;
+    }
+
+    protected Reserva reservaDtoToReserva(ReservaDto reservaDto) {
+        if ( reservaDto == null ) {
+            return null;
+        }
+
+        Reserva reserva = new Reserva();
+
+        reserva.setId( reservaDto.id() );
+        List<Vuelo> list = reservaDto.vuelos();
+        if ( list != null ) {
+            reserva.setVuelos( new ArrayList<Vuelo>( list ) );
+        }
+        reserva.setId_reserva( reservaDto.id_reserva() );
+
+        return reserva;
     }
 }

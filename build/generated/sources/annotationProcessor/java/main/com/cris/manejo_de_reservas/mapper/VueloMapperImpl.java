@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-19T13:44:02-0500",
+    date = "2024-11-26T02:44:02-0500",
     comments = "version: 1.6.2, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
@@ -27,33 +27,50 @@ public class VueloMapperImpl implements VueloMapper {
         }
 
         Long id = null;
-
-        id = vuelo.id;
-
-        Locacion origen = null;
-        Locacion destino = null;
         Date fechaDeSalida = null;
-        Date horaDeSalida = null;
         Integer duracion = null;
         Integer capacidad = null;
         Aeropuerto aeropuerto = null;
         Aerolinea aerolinea = null;
         List<Reserva> reservas = null;
 
-        VueloDto vueloDto = new VueloDto( id, origen, destino, fechaDeSalida, horaDeSalida, duracion, capacidad, aeropuerto, aerolinea, reservas );
+        id = vuelo.getId();
+        fechaDeSalida = vuelo.getFechaDeSalida();
+        duracion = vuelo.getDuracion();
+        capacidad = vuelo.getCapacidad();
+        aeropuerto = vuelo.getAeropuerto();
+        aerolinea = vuelo.getAerolinea();
+        List<Reserva> list = vuelo.getReservas();
+        if ( list != null ) {
+            reservas = new ArrayList<Reserva>( list );
+        }
+
+        Locacion origen = null;
+        Locacion destino = null;
+
+        VueloDto vueloDto = new VueloDto( id, origen, destino, fechaDeSalida, duracion, capacidad, aeropuerto, aerolinea, reservas );
 
         return vueloDto;
     }
 
     @Override
-    public Vuelo toIDEntity(VueloDto vueloDto) {
+    public Vuelo toIdEntity(VueloDto vueloDto) {
         if ( vueloDto == null ) {
             return null;
         }
 
         Vuelo vuelo = new Vuelo();
 
-        vuelo.id = vueloDto.id();
+        vuelo.setId( vueloDto.id() );
+        vuelo.setFechaDeSalida( vueloDto.fechaDeSalida() );
+        vuelo.setDuracion( vueloDto.duracion() );
+        vuelo.setCapacidad( vueloDto.capacidad() );
+        vuelo.setAeropuerto( vueloDto.aeropuerto() );
+        vuelo.setAerolinea( vueloDto.aerolinea() );
+        List<Reserva> list = vueloDto.reservas();
+        if ( list != null ) {
+            vuelo.setReservas( new ArrayList<Reserva>( list ) );
+        }
 
         return vuelo;
     }
@@ -66,7 +83,7 @@ public class VueloMapperImpl implements VueloMapper {
 
         List<VueloDto> list = new ArrayList<VueloDto>( vuelos.size() );
         for ( Vuelo vuelo : vuelos ) {
-            list.add( vueloToVueloDto( vuelo ) );
+            list.add( toIdDto( vuelo ) );
         }
 
         return list;
@@ -80,7 +97,7 @@ public class VueloMapperImpl implements VueloMapper {
 
         List<Vuelo> list = new ArrayList<Vuelo>( vueloDtos.size() );
         for ( VueloDto vueloDto : vueloDtos ) {
-            list.add( toEntity( vueloDto ) );
+            list.add( vueloDtoToVuelo( vueloDto ) );
         }
 
         return list;
@@ -92,29 +109,49 @@ public class VueloMapperImpl implements VueloMapper {
             return null;
         }
 
-        Long id = null;
-        Locacion origen = null;
-        Locacion destino = null;
         Date fechaDeSalida = null;
-        Date horaDeSalida = null;
         Integer duracion = null;
         Integer capacidad = null;
         Aeropuerto aeropuerto = null;
         Aerolinea aerolinea = null;
         List<Reserva> reservas = null;
 
-        VueloDto vueloDto = new VueloDto( id, origen, destino, fechaDeSalida, horaDeSalida, duracion, capacidad, aeropuerto, aerolinea, reservas );
+        fechaDeSalida = vuelo.getFechaDeSalida();
+        duracion = vuelo.getDuracion();
+        capacidad = vuelo.getCapacidad();
+        aeropuerto = vuelo.getAeropuerto();
+        aerolinea = vuelo.getAerolinea();
+        List<Reserva> list = vuelo.getReservas();
+        if ( list != null ) {
+            reservas = new ArrayList<Reserva>( list );
+        }
+
+        Long id = null;
+        Locacion origen = null;
+        Locacion destino = null;
+
+        VueloDto vueloDto = new VueloDto( id, origen, destino, fechaDeSalida, duracion, capacidad, aeropuerto, aerolinea, reservas );
 
         return vueloDto;
     }
 
     @Override
-    public Vuelo toEntity(VueloDto vueloDto) {
+    public Vuelo toEntitySinId(VueloDto vueloDto) {
         if ( vueloDto == null ) {
             return null;
         }
 
         Vuelo vuelo = new Vuelo();
+
+        vuelo.setFechaDeSalida( vueloDto.fechaDeSalida() );
+        vuelo.setDuracion( vueloDto.duracion() );
+        vuelo.setCapacidad( vueloDto.capacidad() );
+        vuelo.setAeropuerto( vueloDto.aeropuerto() );
+        vuelo.setAerolinea( vueloDto.aerolinea() );
+        List<Reserva> list = vueloDto.reservas();
+        if ( list != null ) {
+            vuelo.setReservas( new ArrayList<Reserva>( list ) );
+        }
 
         return vuelo;
     }
@@ -127,7 +164,7 @@ public class VueloMapperImpl implements VueloMapper {
 
         List<VueloDto> list = new ArrayList<VueloDto>( vuelos.size() );
         for ( Vuelo vuelo : vuelos ) {
-            list.add( vueloToVueloDto( vuelo ) );
+            list.add( toDto( vuelo ) );
         }
 
         return list;
@@ -141,33 +178,30 @@ public class VueloMapperImpl implements VueloMapper {
 
         List<Vuelo> list = new ArrayList<Vuelo>( vueloDtos.size() );
         for ( VueloDto vueloDto : vueloDtos ) {
-            list.add( toEntity( vueloDto ) );
+            list.add( toEntitySinId( vueloDto ) );
         }
 
         return list;
     }
 
-    protected VueloDto vueloToVueloDto(Vuelo vuelo) {
-        if ( vuelo == null ) {
+    protected Vuelo vueloDtoToVuelo(VueloDto vueloDto) {
+        if ( vueloDto == null ) {
             return null;
         }
 
-        Long id = null;
+        Vuelo vuelo = new Vuelo();
 
-        id = vuelo.id;
+        vuelo.setId( vueloDto.id() );
+        vuelo.setFechaDeSalida( vueloDto.fechaDeSalida() );
+        vuelo.setDuracion( vueloDto.duracion() );
+        vuelo.setCapacidad( vueloDto.capacidad() );
+        vuelo.setAeropuerto( vueloDto.aeropuerto() );
+        vuelo.setAerolinea( vueloDto.aerolinea() );
+        List<Reserva> list = vueloDto.reservas();
+        if ( list != null ) {
+            vuelo.setReservas( new ArrayList<Reserva>( list ) );
+        }
 
-        Locacion origen = null;
-        Locacion destino = null;
-        Date fechaDeSalida = null;
-        Date horaDeSalida = null;
-        Integer duracion = null;
-        Integer capacidad = null;
-        Aeropuerto aeropuerto = null;
-        Aerolinea aerolinea = null;
-        List<Reserva> reservas = null;
-
-        VueloDto vueloDto = new VueloDto( id, origen, destino, fechaDeSalida, horaDeSalida, duracion, capacidad, aeropuerto, aerolinea, reservas );
-
-        return vueloDto;
+        return vuelo;
     }
 }

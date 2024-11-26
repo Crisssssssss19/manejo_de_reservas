@@ -39,9 +39,6 @@ public class Vuelo {
     @Column(name = "fecha_de_salida",nullable = false)
     private Date fechaDeSalida;
 
-    @Column(name = "hora_de_salida",nullable = false)
-    private Date horaDeSalida;
-
     @Column(nullable = false)
     private Integer duracion;
 

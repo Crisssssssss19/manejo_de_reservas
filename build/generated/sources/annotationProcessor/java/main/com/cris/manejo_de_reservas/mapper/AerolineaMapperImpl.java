@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-19T13:44:03-0500",
+    date = "2024-11-26T02:31:09-0500",
     comments = "version: 1.6.2, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
@@ -23,13 +23,19 @@ public class AerolineaMapperImpl implements AerolineaMapper {
         }
 
         Long id = null;
-
-        id = aerolinea.id;
-
         String nombre = null;
         Integer codigo_de_aerolinea = null;
         String pais_de_origen = null;
         List<Vuelo> vuelos = null;
+
+        id = aerolinea.getId();
+        nombre = aerolinea.getNombre();
+        codigo_de_aerolinea = aerolinea.getCodigo_de_aerolinea();
+        pais_de_origen = aerolinea.getPais_de_origen();
+        List<Vuelo> list = aerolinea.getVuelos();
+        if ( list != null ) {
+            vuelos = new ArrayList<Vuelo>( list );
+        }
 
         AerolineaDto aerolineaDto = new AerolineaDto( id, nombre, codigo_de_aerolinea, pais_de_origen, vuelos );
 
@@ -37,14 +43,21 @@ public class AerolineaMapperImpl implements AerolineaMapper {
     }
 
     @Override
-    public Aerolinea toIDEntity(AerolineaDto aerolineaDto) {
+    public Aerolinea toIdEntity(AerolineaDto aerolineaDto) {
         if ( aerolineaDto == null ) {
             return null;
         }
 
         Aerolinea aerolinea = new Aerolinea();
 
-        aerolinea.id = aerolineaDto.id();
+        aerolinea.setId( aerolineaDto.id() );
+        aerolinea.setNombre( aerolineaDto.nombre() );
+        aerolinea.setCodigo_de_aerolinea( aerolineaDto.codigo_de_aerolinea() );
+        aerolinea.setPais_de_origen( aerolineaDto.pais_de_origen() );
+        List<Vuelo> list = aerolineaDto.vuelos();
+        if ( list != null ) {
+            aerolinea.setVuelos( new ArrayList<Vuelo>( list ) );
+        }
 
         return aerolinea;
     }
@@ -71,7 +84,7 @@ public class AerolineaMapperImpl implements AerolineaMapper {
 
         List<Aerolinea> list = new ArrayList<Aerolinea>( aerolineaDtos.size() );
         for ( AerolineaDto aerolineaDto : aerolineaDtos ) {
-            list.add( toEntity( aerolineaDto ) );
+            list.add( aerolineaDtoToAerolinea( aerolineaDto ) );
         }
 
         return list;
@@ -83,11 +96,20 @@ public class AerolineaMapperImpl implements AerolineaMapper {
             return null;
         }
 
-        Long id = null;
         String nombre = null;
         Integer codigo_de_aerolinea = null;
         String pais_de_origen = null;
         List<Vuelo> vuelos = null;
+
+        nombre = aerolinea.getNombre();
+        codigo_de_aerolinea = aerolinea.getCodigo_de_aerolinea();
+        pais_de_origen = aerolinea.getPais_de_origen();
+        List<Vuelo> list = aerolinea.getVuelos();
+        if ( list != null ) {
+            vuelos = new ArrayList<Vuelo>( list );
+        }
+
+        Long id = null;
 
         AerolineaDto aerolineaDto = new AerolineaDto( id, nombre, codigo_de_aerolinea, pais_de_origen, vuelos );
 
@@ -102,6 +124,14 @@ public class AerolineaMapperImpl implements AerolineaMapper {
 
         Aerolinea aerolinea = new Aerolinea();
 
+        aerolinea.setNombre( aerolineaDto.nombre() );
+        aerolinea.setCodigo_de_aerolinea( aerolineaDto.codigo_de_aerolinea() );
+        aerolinea.setPais_de_origen( aerolineaDto.pais_de_origen() );
+        List<Vuelo> list = aerolineaDto.vuelos();
+        if ( list != null ) {
+            aerolinea.setVuelos( new ArrayList<Vuelo>( list ) );
+        }
+
         return aerolinea;
     }
 
@@ -113,7 +143,7 @@ public class AerolineaMapperImpl implements AerolineaMapper {
 
         List<AerolineaDto> list = new ArrayList<AerolineaDto>( aerolineas.size() );
         for ( Aerolinea aerolinea : aerolineas ) {
-            list.add( aerolineaToAerolineaDto( aerolinea ) );
+            list.add( toDto( aerolinea ) );
         }
 
         return list;
@@ -139,16 +169,41 @@ public class AerolineaMapperImpl implements AerolineaMapper {
         }
 
         Long id = null;
-
-        id = aerolinea.id;
-
         String nombre = null;
         Integer codigo_de_aerolinea = null;
         String pais_de_origen = null;
         List<Vuelo> vuelos = null;
 
+        id = aerolinea.getId();
+        nombre = aerolinea.getNombre();
+        codigo_de_aerolinea = aerolinea.getCodigo_de_aerolinea();
+        pais_de_origen = aerolinea.getPais_de_origen();
+        List<Vuelo> list = aerolinea.getVuelos();
+        if ( list != null ) {
+            vuelos = new ArrayList<Vuelo>( list );
+        }
+
         AerolineaDto aerolineaDto = new AerolineaDto( id, nombre, codigo_de_aerolinea, pais_de_origen, vuelos );
 
         return aerolineaDto;
+    }
+
+    protected Aerolinea aerolineaDtoToAerolinea(AerolineaDto aerolineaDto) {
+        if ( aerolineaDto == null ) {
+            return null;
+        }
+
+        Aerolinea aerolinea = new Aerolinea();
+
+        aerolinea.setId( aerolineaDto.id() );
+        aerolinea.setNombre( aerolineaDto.nombre() );
+        aerolinea.setCodigo_de_aerolinea( aerolineaDto.codigo_de_aerolinea() );
+        aerolinea.setPais_de_origen( aerolineaDto.pais_de_origen() );
+        List<Vuelo> list = aerolineaDto.vuelos();
+        if ( list != null ) {
+            aerolinea.setVuelos( new ArrayList<Vuelo>( list ) );
+        }
+
+        return aerolinea;
     }
 }

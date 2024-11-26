@@ -2,6 +2,7 @@ package com.cris.manejo_de_reservas.mapper;
 
 import com.cris.manejo_de_reservas.dto.PasajeroDto;
 import com.cris.manejo_de_reservas.entities.Pasajero;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -30,7 +31,7 @@ public interface PasajeroMapper {
      * @return la entidad Pasajero correspondiente
      */
     @Named("conId")
-    Pasajero toIDEntity(PasajeroDto pasajeroDto);
+    Pasajero toIdEntity(PasajeroDto pasajeroDto);
 
     /**
      * Mapea una lista de entidades Pasajero a una lista de PasajeroDto, incluyendo los IDs.
@@ -64,8 +65,9 @@ public interface PasajeroMapper {
      * @param pasajeroDto el DTO de Pasajero
      * @return la entidad Pasajero correspondiente sin el ID
      */
+    @Named("sinId")
     @Mapping(target = "id", ignore = true)
-    Pasajero toEntity(PasajeroDto pasajeroDto);
+    Pasajero toEntitySinId(PasajeroDto pasajeroDto);
 
     /**
      * Mapea una lista de entidades Pasajero a una lista de PasajeroDto, ignorando los campos ID.
@@ -73,7 +75,7 @@ public interface PasajeroMapper {
      * @param pasajeros la lista de entidades Pasajero
      * @return la lista de PasajeroDto correspondiente sin IDs
      */
-    @Mapping(target = "id", ignore = true)
+    @IterableMapping(qualifiedByName = "sinId")
     List<PasajeroDto> toListDtoSinId(List<Pasajero> pasajeros);
 
     /**
@@ -82,6 +84,7 @@ public interface PasajeroMapper {
      * @param pasajeroDtos la lista de PasajeroDto
      * @return la lista de entidades Pasajero correspondiente sin IDs
      */
-    @Mapping(target = "id", ignore = true)
+    @IterableMapping(qualifiedByName = "sinId")
     List<Pasajero> toListEntitySinId(List<PasajeroDto> pasajeroDtos);
 }
+

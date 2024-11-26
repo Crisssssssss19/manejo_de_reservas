@@ -19,7 +19,7 @@ public class VueloServiceLmpl implements VueloService {
 
     @Override
     public VueloDto guardarVuelo(VueloDto vuelo) {
-        return vueloMapper.toIdDto(vueloRepository.save(vueloMapper.toEntity(vuelo)));
+        return vueloMapper.toIdDto(vueloRepository.save(vueloMapper.toIdEntity(vuelo)));
     }
 
     @Override
@@ -43,7 +43,6 @@ public class VueloServiceLmpl implements VueloService {
             vueloOld.setId_origen(vuelo.origen());
             vueloOld.setId_destino(vuelo.destino());
             vueloOld.setFechaDeSalida(vuelo.fechaDeSalida());
-            vueloOld.setHoraDeSalida(vuelo.horaDeSalida());
             vueloOld.setDuracion(vuelo.duracion());
             vueloOld.setCapacidad(vuelo.capacidad());
             return vueloRepository.save(vueloOld);

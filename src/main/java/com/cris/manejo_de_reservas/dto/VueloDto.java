@@ -8,6 +8,6 @@ import com.cris.manejo_de_reservas.entities.Reserva;
 import java.util.Date;
 import java.util.List;
 
-public record VueloDto(Long id, Locacion origen, Locacion destino, Date fechaDeSalida, Date horaDeSalida, Integer duracion, Integer capacidad,
+public record VueloDto(Long id, Locacion origen, Locacion destino, Date fechaDeSalida, Integer duracion, Integer capacidad,
                        Aeropuerto aeropuerto, Aerolinea aerolinea, List<Reserva> reservas) {
 }

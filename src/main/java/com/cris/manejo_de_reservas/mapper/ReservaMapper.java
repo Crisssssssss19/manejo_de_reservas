@@ -2,6 +2,7 @@ package com.cris.manejo_de_reservas.mapper;
 
 import com.cris.manejo_de_reservas.dto.ReservaDto;
 import com.cris.manejo_de_reservas.entities.Reserva;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -30,7 +31,7 @@ public interface ReservaMapper {
      * @return la entidad Reserva correspondiente
      */
     @Named("conId")
-    Reserva toIDEntity(ReservaDto reservaDto);
+    Reserva toIdEntity(ReservaDto reservaDto);
 
     /**
      * Mapea una lista de entidades Reserva a una lista de ReservaDto, incluyendo los IDs.
@@ -64,8 +65,9 @@ public interface ReservaMapper {
      * @param reservaDto el DTO de Reserva
      * @return la entidad Reserva correspondiente sin el ID
      */
+    @Named("sinId")
     @Mapping(target = "id", ignore = true)
-    Reserva toEntity(ReservaDto reservaDto);
+    Reserva toEntitySinId(ReservaDto reservaDto);
 
     /**
      * Mapea una lista de entidades Reserva a una lista de ReservaDto, ignorando los campos ID.
@@ -73,7 +75,7 @@ public interface ReservaMapper {
      * @param reservas la lista de entidades Reserva
      * @return la lista de ReservaDto correspondiente sin IDs
      */
-    @Mapping(target = "id", ignore = true)
+    @IterableMapping(qualifiedByName = "sinId")
     List<ReservaDto> toListDtoSinId(List<Reserva> reservas);
 
     /**
@@ -82,6 +84,6 @@ public interface ReservaMapper {
      * @param reservaDtos la lista de ReservaDto
      * @return la lista de entidades Reserva correspondiente sin IDs
      */
-    @Mapping(target = "id", ignore = true)
+    @IterableMapping(qualifiedByName = "sinId")
     List<Reserva> toListEntitySinId(List<ReservaDto> reservaDtos);
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-19T13:44:03-0500",
+    date = "2024-11-26T02:44:02-0500",
     comments = "version: 1.6.2, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
@@ -25,9 +25,6 @@ public class ClienteMapperImpl implements ClienteMapper {
         }
 
         Long id = null;
-
-        id = cliente.id;
-
         String nombre = null;
         String apellido = null;
         String direccion = null;
@@ -35,6 +32,16 @@ public class ClienteMapperImpl implements ClienteMapper {
         String telefono = null;
         Date fechaNacimiento = null;
         Reserva reserva = null;
+
+        id = cliente.getId();
+        nombre = cliente.getNombre();
+        apellido = cliente.getApellido();
+        direccion = cliente.getDireccion();
+        email = cliente.getEmail();
+        telefono = cliente.getTelefono();
+        fechaNacimiento = cliente.getFechaNacimiento();
+        reserva = cliente.getReserva();
+
         Set<String> roles = null;
 
         ClienteDto clienteDto = new ClienteDto( id, nombre, apellido, direccion, email, telefono, fechaNacimiento, reserva, roles );
@@ -43,14 +50,21 @@ public class ClienteMapperImpl implements ClienteMapper {
     }
 
     @Override
-    public Usuario toIDEntity(ClienteDto clienteDto) {
+    public Usuario toIdEntity(ClienteDto clienteDto) {
         if ( clienteDto == null ) {
             return null;
         }
 
         Usuario usuario = new Usuario();
 
-        usuario.id = clienteDto.id();
+        usuario.setId( clienteDto.id() );
+        usuario.setNombre( clienteDto.nombre() );
+        usuario.setApellido( clienteDto.apellido() );
+        usuario.setDireccion( clienteDto.direccion() );
+        usuario.setTelefono( clienteDto.telefono() );
+        usuario.setFechaNacimiento( clienteDto.fechaNacimiento() );
+        usuario.setEmail( clienteDto.email() );
+        usuario.setReserva( clienteDto.reserva() );
 
         return usuario;
     }
@@ -77,7 +91,7 @@ public class ClienteMapperImpl implements ClienteMapper {
 
         List<Usuario> list = new ArrayList<Usuario>( clienteDtos.size() );
         for ( ClienteDto clienteDto : clienteDtos ) {
-            list.add( toEntity( clienteDto ) );
+            list.add( clienteDtoToUsuario( clienteDto ) );
         }
 
         return list;
@@ -89,7 +103,6 @@ public class ClienteMapperImpl implements ClienteMapper {
             return null;
         }
 
-        Long id = null;
         String nombre = null;
         String apellido = null;
         String direccion = null;
@@ -97,6 +110,16 @@ public class ClienteMapperImpl implements ClienteMapper {
         String telefono = null;
         Date fechaNacimiento = null;
         Reserva reserva = null;
+
+        nombre = cliente.getNombre();
+        apellido = cliente.getApellido();
+        direccion = cliente.getDireccion();
+        email = cliente.getEmail();
+        telefono = cliente.getTelefono();
+        fechaNacimiento = cliente.getFechaNacimiento();
+        reserva = cliente.getReserva();
+
+        Long id = null;
         Set<String> roles = null;
 
         ClienteDto clienteDto = new ClienteDto( id, nombre, apellido, direccion, email, telefono, fechaNacimiento, reserva, roles );
@@ -112,6 +135,14 @@ public class ClienteMapperImpl implements ClienteMapper {
 
         Usuario usuario = new Usuario();
 
+        usuario.setNombre( clienteDto.nombre() );
+        usuario.setApellido( clienteDto.apellido() );
+        usuario.setDireccion( clienteDto.direccion() );
+        usuario.setTelefono( clienteDto.telefono() );
+        usuario.setFechaNacimiento( clienteDto.fechaNacimiento() );
+        usuario.setEmail( clienteDto.email() );
+        usuario.setReserva( clienteDto.reserva() );
+
         return usuario;
     }
 
@@ -123,7 +154,7 @@ public class ClienteMapperImpl implements ClienteMapper {
 
         List<ClienteDto> list = new ArrayList<ClienteDto>( clientes.size() );
         for ( Usuario usuario : clientes ) {
-            list.add( usuarioToClienteDto( usuario ) );
+            list.add( toDto( usuario ) );
         }
 
         return list;
@@ -149,9 +180,6 @@ public class ClienteMapperImpl implements ClienteMapper {
         }
 
         Long id = null;
-
-        id = usuario.id;
-
         String nombre = null;
         String apellido = null;
         String direccion = null;
@@ -159,10 +187,39 @@ public class ClienteMapperImpl implements ClienteMapper {
         String telefono = null;
         Date fechaNacimiento = null;
         Reserva reserva = null;
+
+        id = usuario.getId();
+        nombre = usuario.getNombre();
+        apellido = usuario.getApellido();
+        direccion = usuario.getDireccion();
+        email = usuario.getEmail();
+        telefono = usuario.getTelefono();
+        fechaNacimiento = usuario.getFechaNacimiento();
+        reserva = usuario.getReserva();
+
         Set<String> roles = null;
 
         ClienteDto clienteDto = new ClienteDto( id, nombre, apellido, direccion, email, telefono, fechaNacimiento, reserva, roles );
 
         return clienteDto;
+    }
+
+    protected Usuario clienteDtoToUsuario(ClienteDto clienteDto) {
+        if ( clienteDto == null ) {
+            return null;
+        }
+
+        Usuario usuario = new Usuario();
+
+        usuario.setId( clienteDto.id() );
+        usuario.setNombre( clienteDto.nombre() );
+        usuario.setApellido( clienteDto.apellido() );
+        usuario.setDireccion( clienteDto.direccion() );
+        usuario.setTelefono( clienteDto.telefono() );
+        usuario.setFechaNacimiento( clienteDto.fechaNacimiento() );
+        usuario.setEmail( clienteDto.email() );
+        usuario.setReserva( clienteDto.reserva() );
+
+        return usuario;
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/0.1/locaciones")
+@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 public class LocacionController {
     private final LocacionService locacionService;

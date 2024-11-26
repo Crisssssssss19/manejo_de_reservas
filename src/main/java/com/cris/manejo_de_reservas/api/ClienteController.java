@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/0.1/clientes")//Version de la api
+@RequestMapping("/api/0.1/clientes")
+@CrossOrigin(origins = "http://localhost:5173")//Version de la api
 @AllArgsConstructor
 public class ClienteController{
 

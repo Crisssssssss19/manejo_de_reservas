@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-19T13:44:03-0500",
+    date = "2024-11-26T02:44:02-0500",
     comments = "version: 1.6.2, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
@@ -22,10 +22,10 @@ public class LocacionMapperImpl implements LocacionMapper {
         }
 
         Long id = null;
-
-        id = locacion.id;
-
         String nombre = null;
+
+        id = locacion.getId();
+        nombre = locacion.getNombre();
 
         LocacionDto locacionDto = new LocacionDto( id, nombre );
 
@@ -46,13 +46,13 @@ public class LocacionMapperImpl implements LocacionMapper {
     }
 
     @Override
-    public List<LocacionDto> toLitDto(List<Locacion> locacions) {
-        if ( locacions == null ) {
+    public List<LocacionDto> toListDto(List<Locacion> locaciones) {
+        if ( locaciones == null ) {
             return null;
         }
 
-        List<LocacionDto> list = new ArrayList<LocacionDto>( locacions.size() );
-        for ( Locacion locacion : locacions ) {
+        List<LocacionDto> list = new ArrayList<LocacionDto>( locaciones.size() );
+        for ( Locacion locacion : locaciones ) {
             list.add( locacionToLocacionDto( locacion ) );
         }
 
@@ -79,8 +79,11 @@ public class LocacionMapperImpl implements LocacionMapper {
             return null;
         }
 
-        Long id = null;
         String nombre = null;
+
+        nombre = locacion.getNombre();
+
+        Long id = null;
 
         LocacionDto locacionDto = new LocacionDto( id, nombre );
 
@@ -88,7 +91,7 @@ public class LocacionMapperImpl implements LocacionMapper {
     }
 
     @Override
-    public Locacion toIdEntitySinId(LocacionDto locacionDto) {
+    public Locacion toEntitySinId(LocacionDto locacionDto) {
         if ( locacionDto == null ) {
             return null;
         }
@@ -99,14 +102,14 @@ public class LocacionMapperImpl implements LocacionMapper {
     }
 
     @Override
-    public List<LocacionDto> toLitDtoSinId(List<Locacion> locacions) {
-        if ( locacions == null ) {
+    public List<LocacionDto> toListDtoSinId(List<Locacion> locaciones) {
+        if ( locaciones == null ) {
             return null;
         }
 
-        List<LocacionDto> list = new ArrayList<LocacionDto>( locacions.size() );
-        for ( Locacion locacion : locacions ) {
-            list.add( locacionToLocacionDto( locacion ) );
+        List<LocacionDto> list = new ArrayList<LocacionDto>( locaciones.size() );
+        for ( Locacion locacion : locaciones ) {
+            list.add( toDto( locacion ) );
         }
 
         return list;
@@ -120,7 +123,7 @@ public class LocacionMapperImpl implements LocacionMapper {
 
         List<Locacion> list = new ArrayList<Locacion>( locacionDtos.size() );
         for ( LocacionDto locacionDto : locacionDtos ) {
-            list.add( locacionDtoToLocacion( locacionDto ) );
+            list.add( toEntitySinId( locacionDto ) );
         }
 
         return list;
@@ -132,10 +135,10 @@ public class LocacionMapperImpl implements LocacionMapper {
         }
 
         Long id = null;
-
-        id = locacion.id;
-
         String nombre = null;
+
+        id = locacion.getId();
+        nombre = locacion.getNombre();
 
         LocacionDto locacionDto = new LocacionDto( id, nombre );
 

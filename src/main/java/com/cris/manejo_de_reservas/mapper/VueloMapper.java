@@ -2,6 +2,7 @@ package com.cris.manejo_de_reservas.mapper;
 
 import com.cris.manejo_de_reservas.dto.VueloDto;
 import com.cris.manejo_de_reservas.entities.Vuelo;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface VueloMapper {
+
     VueloMapper INSTANCE = Mappers.getMapper(VueloMapper.class);
 
     /**
@@ -29,7 +31,7 @@ public interface VueloMapper {
      * @return la entidad Vuelo correspondiente
      */
     @Named("conId")
-    Vuelo toIDEntity(VueloDto vueloDto);
+    Vuelo toIdEntity(VueloDto vueloDto);
 
     /**
      * Mapea una lista de entidades Vuelo a una lista de VueloDto, incluyendo los IDs.
@@ -37,7 +39,7 @@ public interface VueloMapper {
      * @param vuelos la lista de entidades Vuelo
      * @return la lista de VueloDto correspondiente
      */
-    @Named("listasConId")
+    @IterableMapping(qualifiedByName = "conId")
     List<VueloDto> toListDto(List<Vuelo> vuelos);
 
     /**
@@ -64,8 +66,9 @@ public interface VueloMapper {
      * @param vueloDto el DTO de Vuelo
      * @return la entidad Vuelo correspondiente sin el ID
      */
+    @Named("sinId")
     @Mapping(target = "id", ignore = true)
-    Vuelo toEntity(VueloDto vueloDto);
+    Vuelo toEntitySinId(VueloDto vueloDto);
 
     /**
      * Mapea una lista de entidades Vuelo a una lista de VueloDto, ignorando los campos ID.
@@ -73,8 +76,7 @@ public interface VueloMapper {
      * @param vuelos la lista de entidades Vuelo
      * @return la lista de VueloDto correspondiente sin IDs
      */
-    @Named("listaSinId")
-    @Mapping(target = "id", ignore = true)
+    @IterableMapping(qualifiedByName = "sinId")
     List<VueloDto> toListDtoSinId(List<Vuelo> vuelos);
 
     /**
@@ -83,6 +85,7 @@ public interface VueloMapper {
      * @param vueloDtos la lista de VueloDto
      * @return la lista de entidades Vuelo correspondiente sin IDs
      */
-    @Mapping(target = "id", ignore = true)
+    @IterableMapping(qualifiedByName = "sinId")
     List<Vuelo> toListEntitySinId(List<VueloDto> vueloDtos);
 }
+

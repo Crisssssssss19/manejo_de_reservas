@@ -18,7 +18,7 @@ public class PasajeroServiceLmpl implements PasajeroService{
 
     @Override
     public PasajeroDto guardarPasajero(PasajeroDto pasajero) {
-        return pasajeroMapper.toIdDto(pasajeroRepository.save(pasajeroMapper.toEntity(pasajero)));
+        return pasajeroMapper.toIdDto(pasajeroRepository.save(pasajeroMapper.toIdEntity(pasajero)));
     }
 
     @Override

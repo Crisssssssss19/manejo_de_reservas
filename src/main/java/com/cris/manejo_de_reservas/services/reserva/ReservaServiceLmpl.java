@@ -17,7 +17,7 @@ public class ReservaServiceLmpl implements ReservaService{
 
     @Override
     public ReservaDto guardarReserva(ReservaDto reserva) {
-        return reservaMapper.toIdDto(reservaRepository.save(reservaMapper.toEntity(reserva)));
+        return reservaMapper.toIdDto(reservaRepository.save(reservaMapper.toIdEntity(reserva)));
     }
 
     @Override

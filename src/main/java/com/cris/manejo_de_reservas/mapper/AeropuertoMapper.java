@@ -2,6 +2,7 @@ package com.cris.manejo_de_reservas.mapper;
 
 import com.cris.manejo_de_reservas.dto.AeropuertoDto;
 import com.cris.manejo_de_reservas.entities.Aeropuerto;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -30,7 +31,7 @@ public interface AeropuertoMapper {
      * @return la entidad Aeropuerto correspondiente
      */
     @Named("conId")
-    Aeropuerto toIDEntity(AeropuertoDto aeropuertoDto);
+    Aeropuerto toIdEntity(AeropuertoDto aeropuertoDto);
 
     /**
      * Mapea una lista de entidades Aeropuerto a una lista de AeropuertoDto, incluyendo los IDs.
@@ -64,6 +65,7 @@ public interface AeropuertoMapper {
      * @param aeropuertoDto el DTO de Aeropuerto
      * @return la entidad Aeropuerto correspondiente sin el ID
      */
+    @Named("sinId")
     @Mapping(target = "id", ignore = true)
     Aeropuerto toEntity(AeropuertoDto aeropuertoDto);
 
@@ -73,7 +75,7 @@ public interface AeropuertoMapper {
      * @param aeropuertos la lista de entidades Aeropuerto
      * @return la lista de AeropuertoDto correspondiente sin IDs
      */
-    @Mapping(target = "id", ignore = true)
+    @IterableMapping(qualifiedByName = "sinId")
     List<AeropuertoDto> toListDtoSinId(List<Aeropuerto> aeropuertos);
 
     /**
@@ -82,6 +84,6 @@ public interface AeropuertoMapper {
      * @param aeropuertoDtos la lista de AeropuertoDto
      * @return la lista de entidades Aeropuerto correspondiente sin IDs
      */
-    @Mapping(target = "id", ignore = true)
+    @IterableMapping(qualifiedByName = "sinId")
     List<Aeropuerto> toListEntitySinId(List<AeropuertoDto> aeropuertoDtos);
 }
