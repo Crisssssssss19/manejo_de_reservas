@@ -28,7 +28,7 @@ public class Aerolinea {
     private String pais_de_origen;
 
     /**Una aerolinea tiene muchos vuelos*/
-    @OneToMany(mappedBy =  "aerolinea")
+    @OneToMany(mappedBy =  "aerolinea", fetch = FetchType.EAGER)
     private List<Vuelo> vuelos;
 
 

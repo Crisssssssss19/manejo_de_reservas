@@ -58,7 +58,7 @@ public class AerolineaController {
         AerolineaDto newAeroplinea= aerolineaService.guardarAerolinea(aerolinea);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")//Agrega un id
-                .buildAndExpand(newAeroplinea.id())//Construye la url
+                .buildAndExpand(newAeroplinea.getId())//Construye la url
                 .toUri();
         return ResponseEntity.created(location).body(newAeroplinea);
     }

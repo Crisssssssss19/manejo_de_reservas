@@ -1,87 +1,78 @@
 package com.cris.manejo_de_reservas.mapper;
 
-import com.cris.manejo_de_reservas.dto.ClienteDto;
+import com.cris.manejo_de_reservas.dto.VueloDto;
+import com.cris.manejo_de_reservas.entities.Reserva;
 import com.cris.manejo_de_reservas.entities.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ClienteMapper {
-
     ClienteMapper INSTANCE = Mappers.getMapper(ClienteMapper.class);
 
-    /**
-     * Mapea una entidad Cliente a un ClienteDto, incluyendo el ID.
-     *
-     * @param cliente la entidad Cliente
-     * @return el ClienteDto correspondiente
-     */
-    @Named("conId")
-    ClienteDto toIdDto(Usuario cliente);
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "role", target = "roles") // Mapear roles directamente si es necesario
+    default VueloDto.UsuarioDto toIdDto(Usuario usuario) {
+        if (usuario == null) return null;
 
-    /**
-     * Mapea un ClienteDto a una entidad Cliente, incluyendo el ID.
-     *
-     * @param clienteDto el DTO de Cliente
-     * @return la entidad Cliente correspondiente
-     */
-    @Named("conId")
-    Usuario toIDEntity(ClienteDto clienteDto);
+        VueloDto.UsuarioDto dto = new VueloDto.UsuarioDto();
+        dto.setId(usuario.getId());
+        dto.setNombre(usuario.getNombre());
+        dto.setApellido(usuario.getApellido());
+        dto.setDireccion(usuario.getDireccion());
+        dto.setEmail(usuario.getEmail());
+        dto.setTelefono(usuario.getTelefono());
+        dto.setFechaNacimiento(usuario.getFechaNacimiento());
 
-    /**
-     * Mapea una lista de entidades Cliente a una lista de ClienteDto, incluyendo los IDs.
-     *
-     * @param clientes la lista de entidades Cliente
-     * @return la lista de ClienteDto correspondiente
-     */
-    List<ClienteDto> toListDto(List<Usuario> clientes);
+        // Asignar roles si están presentes, de lo contrario asignar un Set vacío
+        if (usuario.getRole() != null) {
+            dto.setRoles(new HashSet<>(usuario.getRole()));
+        } else {
+            dto.setRoles(Set.of());
+        }
+        dto.setReservaDtos(ReservaMapper.INSTANCE.toDtoList((List<Reserva>) usuario.getReserva()));
 
-    /**
-     * Mapea una lista de ClienteDto a una lista de entidades Cliente, incluyendo los IDs.
-     *
-     * @param clienteDtos la lista de ClienteDto
-     * @return la lista de entidades Cliente correspondiente
-     */
-    List<Usuario> toListEntity(List<ClienteDto> clienteDtos);
+        return dto;
+    }
 
-    /**
-     * Mapea una entidad Cliente a un ClienteDto, ignorando el campo ID.
-     *
-     * @param cliente la entidad Cliente
-     * @return el ClienteDto correspondiente sin el ID
-     */
-    @Named("sinId")
-    @Mapping(target = "id", ignore = true)
-    ClienteDto toDto(Usuario cliente);
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "roles", target = "role") // Mapear roles directamente
+    default Usuario toIdEntity(VueloDto.UsuarioDto usuarioDto) {
+        if (usuarioDto == null) return null;
 
-    /**
-     * Mapea un ClienteDto a una entidad Cliente, ignorando el campo ID.
-     *
-     * @param clienteDto el DTO de Cliente
-     * @return la entidad Cliente correspondiente sin el ID
-     */
-    @Mapping(target = "id", ignore = true)
-    Usuario toEntity(ClienteDto clienteDto);
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioDto.getId());
+        usuario.setNombre(usuarioDto.getNombre());
+        usuario.setApellido(usuarioDto.getApellido());
+        usuario.setDireccion(usuarioDto.getDireccion());
+        usuario.setEmail(usuarioDto.getEmail());
+        usuario.setTelefono(usuarioDto.getTelefono());
+        usuario.setFechaNacimiento(usuarioDto.getFechaNacimiento());
 
-    /**
-     * Mapea una lista de entidades Cliente a una lista de ClienteDto, ignorando los campos ID.
-     *
-     * @param clientes la lista de entidades Cliente
-     * @return la lista de ClienteDto correspondiente sin IDs
-     */
-    @Mapping(target = "id", ignore = true)
-    List<ClienteDto> toListDtoSinId(List<Usuario> clientes);
+        // Asignar roles si están presentes, de lo contrario asignar un Set vacío
+        if (usuarioDto.getRoles() != null) {
+            usuario.setRole(new HashSet<>(usuarioDto.getRoles()));
+        } else {
+            usuario.setRole(Set.of());
+        }
 
-    /**
-     * Mapea una lista de ClienteDto a una lista de entidades Cliente, ignorando los campos ID.
-     *
-     * @param clienteDtos la lista de ClienteDto
-     * @return la lista de entidades Cliente correspondiente sin IDs
-     */
-    @Mapping(target = "id", ignore = true)
-    List<Usuario> toListEntitySinId(List<ClienteDto> clienteDtos);
+        return usuario;
+    }
+
+    default List<VueloDto.UsuarioDto> toDtoList(List<Usuario> usuarios) {
+        if (usuarios == null || usuarios.isEmpty()) return List.of();
+        return usuarios.stream().map(this::toIdDto).collect(Collectors.toList());
+    }
+
+    default List<Usuario> toEntityList(List<VueloDto.UsuarioDto> usuariosDto) {
+        if (usuariosDto == null || usuariosDto.isEmpty()) return List.of();
+        return usuariosDto.stream().map(this::toIdEntity).collect(Collectors.toList());
+    }
+
 }

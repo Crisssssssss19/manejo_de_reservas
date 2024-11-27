@@ -1,5 +1,5 @@
 package com.cris.manejo_de_reservas.api;
-import com.cris.manejo_de_reservas.dto.ClienteDto;
+import com.cris.manejo_de_reservas.dto.VueloDto;
 import com.cris.manejo_de_reservas.exceptions.ClienteNotFounException;
 import com.cris.manejo_de_reservas.services.cliente.ClienteService;
 import lombok.AllArgsConstructor;
@@ -8,42 +8,60 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
-@RequestMapping("/api/0.1/clientes")//Version de la api
+@RequestMapping("/api/0.1/clientes")
+@CrossOrigin(origins = "http://localhost:5173")//Version de la api
 @AllArgsConstructor
 public class ClienteController{
 
     private final ClienteService clienteService;
 
-    //Traer todos los clientes
-    @GetMapping()//Se entiende que es la ruta clientes
-    public ResponseEntity<List<ClienteDto>> getAllClientes(){
-        return ResponseEntity.ok(clienteService.BuscarCliente()); //200 lo encontro
+//    //Traer todos los clientes
+//    @GetMapping()//Se entiende que es la ruta clientes
+//    public ResponseEntity<HashMap<String, Object>> getAllClientes() {
+//        HashMap<String, Object> response = new HashMap<>();
+//        List<UsuarioDto> clientes = clienteService.BuscarCliente();
+//
+//        if (clientes.isEmpty()) {
+//            response.put("error", "No se encontraron Clientes");
+//            return ResponseEntity.status(404).body(response); // Código HTTP 404
+//        }
+//
+//        response.put("clientes", clientes);
+//        response.put("total", clientes.size());
+//        return ResponseEntity.ok(response); // Código HTTP 200
+//    }
+
+    @GetMapping()
+    public ResponseEntity<List<VueloDto.UsuarioDto>>getAllClientes(){
+        return ResponseEntity.ok(clienteService.BuscarCliente());
     }
 
+
+
+
     @GetMapping("/idCliente/{idCliente}")//Traer cliente por Id
-    public ResponseEntity<ClienteDto> getClienteById(@PathVariable("idCliente") Long id){ // Tienen que ser iguales
+    public ResponseEntity<VueloDto.UsuarioDto> getClienteById(@PathVariable("idCliente") Long id){ // Tienen que ser iguales
         return clienteService.buscarClientePorId(id)
                 .map(cliente -> ResponseEntity.ok().body(cliente))
                 .orElseThrow(ClienteNotFounException::new);
     }
 
     @GetMapping("/lista")//Obtener lista de clientes
-    public ResponseEntity<List<ClienteDto>> getListCliente(@RequestBody List<Long>ids ){
+    public ResponseEntity<List<VueloDto.UsuarioDto>> getListCliente(@RequestBody List<Long>ids ){
         return ResponseEntity.ok(clienteService.BuscarClientesByIds(ids));
     }
 
     @GetMapping("/nombre/{nombre}")//Buscar clinete por nombre
-    public ResponseEntity<List<ClienteDto>> getClienteByName(@PathVariable("nombre") String name){
+    public ResponseEntity<List<VueloDto.UsuarioDto>> getClienteByName(@PathVariable("nombre") String name){
         return ResponseEntity.ok(clienteService.BuscarClientesByNombre(name));
     }
 
     @PutMapping("/actualizar/{id}")//actualizar cliente
-    public ResponseEntity<ClienteDto> actualizarCliente(@PathVariable("id") Long id,@RequestBody ClienteDto cliente){
-        Optional<ClienteDto> clienteUpdate = clienteService.actualizarCliente(id,cliente);
+    public ResponseEntity<VueloDto.UsuarioDto> actualizarCliente(@PathVariable("id") Long id, @RequestBody VueloDto.UsuarioDto cliente){
+        Optional<VueloDto.UsuarioDto> clienteUpdate = clienteService.actualizarCliente(id,cliente);
         return clienteUpdate.map(clienteA -> ResponseEntity.ok(clienteA))
                 .orElseGet(() ->{
                     return createNewCliente(cliente);
@@ -51,21 +69,21 @@ public class ClienteController{
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDto> crearCliente(@RequestBody ClienteDto cliente){
+    public ResponseEntity<VueloDto.UsuarioDto> crearCliente(@RequestBody VueloDto.UsuarioDto cliente){
         return createNewCliente(cliente);
     }
 
-    private ResponseEntity<ClienteDto> createNewCliente(ClienteDto cliente) {
-        ClienteDto newCliente = clienteService.guardar(cliente);
+    private ResponseEntity<VueloDto.UsuarioDto> createNewCliente(VueloDto.UsuarioDto cliente) {
+        VueloDto.UsuarioDto newCliente = clienteService.guardar(cliente);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")//Agrega un id
-                .buildAndExpand(newCliente.id())//Construye la url
+                .buildAndExpand(newCliente.getId())//Construye la url
                 .toUri();
         return ResponseEntity.created(location).body(newCliente);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteClinete(@PathVariable Long id){
+    public ResponseEntity deleteClinete(@PathVariable("id") Long id){
         clienteService.borrarCliente(id);
         return ResponseEntity.noContent()
                 .build();

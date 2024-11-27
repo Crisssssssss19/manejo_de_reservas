@@ -1,6 +1,15 @@
 package com.cris.manejo_de_reservas.dto;
 
 import com.cris.manejo_de_reservas.entities.Reserva;
+import lombok.Data;
 
-public record PasajeroDto(Long id, String nombre, String apellido, Integer cc, Integer telefono, Reserva reserva) {
+
+@Data
+public class PasajeroDto{
+    private Long id;
+    private String nombre;
+    private String apellido;
+    private Integer cc;
+    private Integer telefono;
+    private ReservaDto reserva;
 }

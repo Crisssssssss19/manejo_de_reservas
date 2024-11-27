@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/0.1/vuelos")
+@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 public class VueloController {
 
@@ -51,7 +52,7 @@ public class VueloController {
         VueloDto newVuelo = vueloService.guardarVuelo(vuelo);
         URI location= ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(newVuelo.id())
+                .buildAndExpand(newVuelo.getId())
                 .toUri();
         return ResponseEntity.created(location).body(vuelo);
     }

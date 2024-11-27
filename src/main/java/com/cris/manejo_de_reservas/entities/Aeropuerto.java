@@ -28,8 +28,7 @@ public class Aeropuerto {
     @Column(nullable = false)
     private String pais;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "id_vuelo", referencedColumnName = "id")
-    private Vuelo vuelo;
+    @OneToMany(mappedBy = "aeropuerto", fetch = FetchType.EAGER)
+    private List<Vuelo> vuelo;
 
   }

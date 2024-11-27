@@ -18,36 +18,36 @@ public class PasajeroServiceLmpl implements PasajeroService{
 
     @Override
     public PasajeroDto guardarPasajero(PasajeroDto pasajero) {
-        return pasajeroMapper.toIdDto(pasajeroRepository.save(pasajeroMapper.toEntity(pasajero)));
+        return pasajeroMapper.toPasajeroDto(pasajeroRepository.save(pasajeroMapper.toPasajeroEntity(pasajero)));
     }
 
     @Override
     public Optional<PasajeroDto> buscarPasajeroPorId(Long id) {
-        return Optional.of(pasajeroMapper.toIdDto(pasajeroRepository.findById(id).get()));
+        return Optional.of(pasajeroMapper.toPasajeroDto(pasajeroRepository.findById(id).get()));
     }
 
     @Override
     public List<PasajeroDto> BuscarPasajero() {
-        return pasajeroMapper.toListDto(pasajeroRepository.findAll());
+        return pasajeroMapper.toDtoList(pasajeroRepository.findAll());
     }
 
     @Override
     public List<PasajeroDto> BuscarPasajeroByIds(List<Long> ids) {
-        return pasajeroMapper.toListDto(pasajeroRepository.findByIdIn(ids));
+        return pasajeroMapper.toDtoList(pasajeroRepository.findByIdIn(ids));
     }
 
     @Override
     public List<PasajeroDto> BuscarPasajeroByNombre(String nombre) {
-        return pasajeroMapper.toListDto(pasajeroRepository.findByNombre(nombre));
+        return pasajeroMapper.toDtoList(pasajeroRepository.findByNombre(nombre));
     }
 
     @Override
     public Optional<PasajeroDto> actualizarPasajero(Long id, PasajeroDto pasajero) {
-        return Optional.of( pasajeroMapper.toIdDto(pasajeroRepository.findById(id).map(pasajeroOld -> {
-            pasajeroOld.setNombre(pasajero.nombre());
-            pasajeroOld.setApellido(pasajero.apellido());
-            pasajeroOld.setCc(pasajero.cc());
-            pasajeroOld.setTelefono(pasajero.telefono());
+        return Optional.of( pasajeroMapper.toPasajeroDto(pasajeroRepository.findById(id).map(pasajeroOld -> {
+            pasajeroOld.setNombre(pasajero.getNombre());
+            pasajeroOld.setApellido(pasajero.getApellido());
+            pasajeroOld.setCc(pasajero.getCc());
+            pasajeroOld.setTelefono(pasajero.getTelefono());
             return pasajeroRepository.save(pasajeroOld);
         } ).get()));
     }

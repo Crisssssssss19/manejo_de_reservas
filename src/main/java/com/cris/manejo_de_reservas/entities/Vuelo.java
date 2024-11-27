@@ -28,17 +28,18 @@ public class Vuelo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(nullable = false)
-    private String origen;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_Origen", referencedColumnName = "id")
+    private Locacion id_origen;
 
-    @Column(nullable = false)
-    private String destino;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_Destino", referencedColumnName = "id")
+    private Locacion id_destino;
+
+
 
     @Column(name = "fecha_de_salida",nullable = false)
     private Date fechaDeSalida;
-
-    @Column(name = "hora_de_salida",nullable = false)
-    private Date horaDeSalida;
 
     @Column(nullable = false)
     private Integer duracion;
@@ -47,7 +48,8 @@ public class Vuelo {
     private Integer capacidad;
 
     /**un vuelo tiene un aeropuerto*/
-    @OneToOne(mappedBy = "vuelo")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_aeropuerto", referencedColumnName = "id")
     private Aeropuerto aeropuerto;
 
     /**Una aerolinea tiene muchos vuelos*/
@@ -56,7 +58,7 @@ public class Vuelo {
     private Aerolinea aerolinea;
 
     /** muchas reserva tiene muchos vuelos y muchos vuelos muchas reservas*/
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "rutas",
             joinColumns = @JoinColumn(name = "id_vuelo", referencedColumnName = "id"),

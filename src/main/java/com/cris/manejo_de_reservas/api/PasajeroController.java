@@ -58,7 +58,7 @@ public class PasajeroController {
         PasajeroDto newPasajero = pasajeroService.guardarPasajero(pasajero);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")//Agrega un id
-                .buildAndExpand(newPasajero.id())//Construye la url
+                .buildAndExpand(newPasajero.getId())//Construye la url
                 .toUri();
         return ResponseEntity.created(location).body(newPasajero);
     }

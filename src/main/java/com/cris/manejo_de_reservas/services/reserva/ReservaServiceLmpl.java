@@ -17,29 +17,29 @@ public class ReservaServiceLmpl implements ReservaService{
 
     @Override
     public ReservaDto guardarReserva(ReservaDto reserva) {
-        return reservaMapper.toIdDto(reservaRepository.save(reservaMapper.toEntity(reserva)));
+        return reservaMapper.toReservaDto(reservaRepository.save(reservaMapper.toReservaEntity(reserva)));
     }
 
     @Override
     public Optional<ReservaDto> buscarReservaPorId(Long id) {
-        return Optional.of(reservaMapper.toIdDto(reservaRepository.findById(id).get()));
+        return Optional.of(reservaMapper.toReservaDto(reservaRepository.findById(id).get()));
     }
 
     @Override
     public List<ReservaDto> BuscarReserva() {
-        return reservaMapper.toListDto(reservaRepository.findAll());
+        return reservaMapper.toDtoList(reservaRepository.findAll());
     }
 
     @Override
     public List<ReservaDto> BuscarReservasByIds(List<Long> ids) {
-        return reservaMapper.toListDto(reservaRepository.findByIdIn(ids));
+        return reservaMapper.toDtoList(reservaRepository.findByIdIn(ids));
     }
 
     @Override
     public Optional<ReservaDto> actualizarReserva(Long id, ReservaDto reserva) {
-        return Optional.of(reservaMapper.toIdDto(reservaRepository.findById(id).map(reservaOld -> {
-            reservaOld.setFecha_de_reserva(reserva.frechaReserva());
-            reservaOld.setNumero_de_pasajeros(reserva.numeroDePasajeros());
+        return Optional.of(reservaMapper.toReservaDto(reservaRepository.findById(id).map(reservaOld -> {
+            reservaOld.setFecha_de_reserva(reserva.getFrechaReserva());
+            reservaOld.setNumero_de_pasajeros(reserva.getNumeroDePasajeros());
             return reservaRepository.save(reservaOld);
         }).get()));
     }

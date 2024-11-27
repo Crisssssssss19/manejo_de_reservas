@@ -2,86 +2,105 @@ package com.cris.manejo_de_reservas.mapper;
 
 import com.cris.manejo_de_reservas.dto.ReservaDto;
 import com.cris.manejo_de_reservas.entities.Reserva;
+import com.cris.manejo_de_reservas.entities.Usuario;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ReservaMapper {
 
     ReservaMapper INSTANCE = Mappers.getMapper(ReservaMapper.class);
 
-    /**
-     * Mapea una entidad Reserva a un ReservaDto, incluyendo el ID.
-     *
-     * @param reserva la entidad Reserva
-     * @return el ReservaDto correspondiente
-     */
-    @Named("conId")
-    ReservaDto toIdDto(Reserva reserva);
+    // Mapeo de Reserva a ReservaDto
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "fechaReserva", target = "fechaReserva")
+    @Mapping(source = "numeroDePasajeros", target = "numeroDePasajeros")
+    @Mapping(source = "clientes", target = "clientes")
+    @Mapping(source = "vuelos", target = "vuelos")
+    @Mapping(source = "id_reserva", target = "id_reserva")  // Mapeo de Pasajero
+    default ReservaDto toReservaDto(Reserva reserva) {
+        if (reserva == null) return null;
 
-    /**
-     * Mapea un ReservaDto a una entidad Reserva, incluyendo el ID.
-     *
-     * @param reservaDto el DTO de Reserva
-     * @return la entidad Reserva correspondiente
-     */
-    @Named("conId")
-    Reserva toIDEntity(ReservaDto reservaDto);
+        ReservaDto dto = new ReservaDto();
+        dto.setId(reserva.getId());
+        dto.setFrechaReserva(reserva.getFecha_de_reserva());
+        dto.setNumeroDePasajeros(reserva.getNumero_de_pasajeros());
 
-    /**
-     * Mapea una lista de entidades Reserva a una lista de ReservaDto, incluyendo los IDs.
-     *
-     * @param reservas la lista de entidades Reserva
-     * @return la lista de ReservaDto correspondiente
-     */
-    List<ReservaDto> toListDto(List<Reserva> reservas);
+        // Mapeo de clientes (List<Usuario>)
+        if (reserva.getUsuario() != null) {
+            dto.setClientes(reserva.getUsuario().stream()
+                    .map(ClienteMapper.INSTANCE::toIdDto)  // Suponiendo que tienes un UsuarioMapper
+                    .collect(Collectors.toList()));
+        }
 
-    /**
-     * Mapea una lista de ReservaDto a una lista de entidades Reserva, incluyendo los IDs.
-     *
-     * @param reservaDtos la lista de ReservaDto
-     * @return la lista de entidades Reserva correspondiente
-     */
-    List<Reserva> toListEntity(List<ReservaDto> reservaDtos);
+        // Mapeo de vuelos (List<Vuelo>)
+        if (reserva.getVuelos() != null) {
+            dto.setVuelos(reserva.getVuelos().stream()
+                    .map(VueloMapper.INSTANCE::toVueloDto)  // Suponiendo que tienes un VueloMapper
+                    .collect(Collectors.toList()));
+        }
 
-    /**
-     * Mapea una entidad Reserva a un ReservaDto, ignorando el campo ID.
-     *
-     * @param reserva la entidad Reserva
-     * @return el ReservaDto correspondiente sin el ID
-     */
-    @Named("sinId")
-    @Mapping(target = "id", ignore = true)
-    ReservaDto toDto(Reserva reserva);
+        // Mapeo de id_reserva (Pasajero)
 
-    /**
-     * Mapea un ReservaDto a una entidad Reserva, ignorando el campo ID.
-     *
-     * @param reservaDto el DTO de Reserva
-     * @return la entidad Reserva correspondiente sin el ID
-     */
-    @Mapping(target = "id", ignore = true)
-    Reserva toEntity(ReservaDto reservaDto);
+            dto.setId_reserva(PasajeroMapper.INSTANCE.toPasajeroDto(reserva.getId_reserva()));  // Suponiendo que tienes un PasajeroMapper
 
-    /**
-     * Mapea una lista de entidades Reserva a una lista de ReservaDto, ignorando los campos ID.
-     *
-     * @param reservas la lista de entidades Reserva
-     * @return la lista de ReservaDto correspondiente sin IDs
-     */
-    @Mapping(target = "id", ignore = true)
-    List<ReservaDto> toListDtoSinId(List<Reserva> reservas);
 
-    /**
-     * Mapea una lista de ReservaDto a una lista de entidades Reserva, ignorando los campos ID.
-     *
-     * @param reservaDtos la lista de ReservaDto
-     * @return la lista de entidades Reserva correspondiente sin IDs
-     */
-    @Mapping(target = "id", ignore = true)
-    List<Reserva> toListEntitySinId(List<ReservaDto> reservaDtos);
+        return dto;
+    }
+
+    // Mapeo de ReservaDto a Reserva
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "fechaReserva", target = "fechaReserva")
+    @Mapping(source = "numeroDePasajeros", target = "numeroDePasajeros")
+    @Mapping(source = "clientes", target = "clientes")
+    @Mapping(source = "vuelos", target = "vuelos")
+    @Mapping(source = "id_reserva", target = "id_reserva")  // Mapeo de PasajeroDto
+    default Reserva toReservaEntity(ReservaDto reservaDto) {
+        if (reservaDto == null) return null;
+
+        Reserva reserva = new Reserva();
+        reserva.setId(reservaDto.getId());
+        reserva.setFecha_de_reserva(reservaDto.getFrechaReserva());
+        reserva.setNumero_de_pasajeros(reservaDto.getNumeroDePasajeros());
+
+        // Mapeo de clientes (List<UsuarioDto> a List<Usuario>)
+        if (reservaDto.getClientes() != null) {
+            reserva.setUsuario(reservaDto.getClientes().stream()
+                    .map(ClienteMapper.INSTANCE::toIdEntity)  // Suponiendo que tienes un UsuarioMapper
+                    .collect(Collectors.toList()));
+        }
+
+        // Mapeo de vuelos (List<VueloDto> a List<Vuelo>)
+        if (reservaDto.getVuelos() != null) {
+            reserva.setVuelos(reservaDto.getVuelos().stream()
+                    .map(VueloMapper.INSTANCE::toVueloEntity)  // Suponiendo que tienes un VueloMapper
+                    .collect(Collectors.toList()));
+        }
+
+        // Mapeo de id_reserva (PasajeroDto a Pasajero)
+        if (reservaDto.getId_reserva() != null) {
+            reserva.setId_reserva(PasajeroMapper.INSTANCE.toPasajeroEntity(reservaDto.getId_reserva()));  // Suponiendo que tienes un PasajeroMapper
+        }
+
+        return reserva;
+    }
+
+    // Método para convertir una lista de Reserva a una lista de ReservaDto
+    default List<ReservaDto> toDtoList(List<Reserva> reservas) {
+        if (reservas == null || reservas.isEmpty()) return List.of();
+        return reservas.stream().map(this::toReservaDto).collect(Collectors.toList());
+    }
+
+    // Método para convertir una lista de ReservaDto a una lista de Reserva
+    default List<Reserva> toEntityList(List<ReservaDto> reservaDtos) {
+        if (reservaDtos == null || reservaDtos.isEmpty()) return List.of();
+        return reservaDtos.stream().map(this::toReservaEntity).collect(Collectors.toList());
+    }
 }
+

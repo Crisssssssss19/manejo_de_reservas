@@ -19,7 +19,7 @@ public class AeropuertoServiceLmpl implements AeropuertoService {
 
     @Override
     public AeropuertoDto guardarAeropuerto(AeropuertoDto aeropuerto) {
-        return aeropuertoMapper.toIdDto(aeropuertoRepository.save(aeropuertoMapper.toEntity(aeropuerto)));
+        return aeropuertoMapper.toIdDto(aeropuertoRepository.save(aeropuertoMapper.toIdEntity(aeropuerto)));
     }
 
     @Override
@@ -29,25 +29,25 @@ public class AeropuertoServiceLmpl implements AeropuertoService {
 
     @Override
     public List<AeropuertoDto> buscarAeropuerto() {
-        return aeropuertoMapper.toListDto(aeropuertoRepository.findAll());
+        return aeropuertoMapper.toDtoList(aeropuertoRepository.findAll());
     }
 
     @Override
     public List<AeropuertoDto> buscaraAropuertoPorIds(List<Long> ids) {
-        return aeropuertoMapper.toListDto(aeropuertoRepository.findByIdIn(ids));
+        return aeropuertoMapper.toDtoList(aeropuertoRepository.findByIdIn(ids));
     }
 
     @Override
     public List<AeropuertoDto> buscarAeropuertoByNombre(String nombre) {
-        return  aeropuertoMapper.toListDto(aeropuertoRepository.findByNombre(nombre));
+        return  aeropuertoMapper.toDtoList(aeropuertoRepository.findByNombre(nombre));
     }
 
     @Override
     public Optional<AeropuertoDto> actualizarAerolinea(Long id, AeropuertoDto aeropuerto) {
         return Optional.of(aeropuertoMapper.toIdDto(aeropuertoRepository.findById(id).map(aeropuertoOld -> {
-            aeropuertoOld.setNombre(aeropuerto.nombre());
-            aeropuertoOld.setCiudad(aeropuerto.ciudad());
-            aeropuertoOld.setPais(aeropuerto.pais());
+            aeropuertoOld.setNombre(aeropuerto.getNombre());
+            aeropuertoOld.setCiudad(aeropuerto.getCiudad());
+            aeropuertoOld.setPais(aeropuerto.getPais());
             return aeropuertoRepository.save(aeropuertoOld);
         }).get()));
     }
