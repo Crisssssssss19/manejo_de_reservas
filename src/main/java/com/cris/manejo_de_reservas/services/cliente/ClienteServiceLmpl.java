@@ -1,9 +1,8 @@
 package com.cris.manejo_de_reservas.services.cliente;
 
-import com.cris.manejo_de_reservas.dto.ClienteDto;
+import com.cris.manejo_de_reservas.dto.VueloDto;
 import com.cris.manejo_de_reservas.entities.Usuario;
 import com.cris.manejo_de_reservas.mapper.ClienteMapper;
-import com.cris.manejo_de_reservas.mapper.UsuarioDto;
 import com.cris.manejo_de_reservas.repositories.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,20 +18,20 @@ public class ClienteServiceLmpl implements ClienteService {
     private ClienteRepository clienteRepository;
 //
     @Override
-    public UsuarioDto guardar(UsuarioDto usuarioDto) {
+    public VueloDto.UsuarioDto guardar(VueloDto.UsuarioDto usuarioDto) {
         return clienteMapper.toIdDto(clienteRepository.save(clienteMapper.toIdEntity(usuarioDto)));
     }
 
     @Override
-    public Optional<UsuarioDto> buscarClientePorId(Long id) {
+    public Optional<VueloDto.UsuarioDto> buscarClientePorId(Long id) {
         return Optional.of(clienteMapper.toIdDto(clienteRepository.findById(id).get()));
     }
 
     @Override
-    public List<UsuarioDto> BuscarCliente() {
+    public List<VueloDto.UsuarioDto> BuscarCliente() {
         List<Usuario> usuarios =clienteRepository.findAll();
         if (usuarios.isEmpty()) return null;
-        List<UsuarioDto> usuarioDtos = new ArrayList<>();
+        List<VueloDto.UsuarioDto> usuarioDtos = new ArrayList<>();
         for (Usuario usuario: usuarios){
             usuarioDtos.add(clienteMapper.toIdDto(usuario));
         }
@@ -40,17 +39,17 @@ public class ClienteServiceLmpl implements ClienteService {
    }
 
     @Override
-    public List<UsuarioDto> BuscarClientesByIds(List<Long> ids) {
+    public List<VueloDto.UsuarioDto> BuscarClientesByIds(List<Long> ids) {
         return clienteMapper.toDtoList(clienteRepository.findByIdIn(ids));
     }
 
     @Override
-    public List<UsuarioDto> BuscarClientesByNombre(String nombre) {
+    public List<VueloDto.UsuarioDto> BuscarClientesByNombre(String nombre) {
         return clienteMapper.toDtoList(clienteRepository.findByNombre(nombre));
     }
 
     @Override
-    public Optional<UsuarioDto> actualizarCliente(Long id,UsuarioDto usuarioDto) {
+    public Optional<VueloDto.UsuarioDto> actualizarCliente(Long id, VueloDto.UsuarioDto usuarioDto) {
         return Optional.of(clienteMapper.toIdDto(clienteRepository.findById(id).map(oldCliente -> {
 
             oldCliente.setNombre(usuarioDto.getNombre());

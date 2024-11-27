@@ -1,11 +1,10 @@
 package com.cris.manejo_de_reservas.mapper;
 
-import com.cris.manejo_de_reservas.dto.ClienteDto;
+import com.cris.manejo_de_reservas.dto.VueloDto;
+import com.cris.manejo_de_reservas.entities.Reserva;
 import com.cris.manejo_de_reservas.entities.Usuario;
-import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.HashSet;
@@ -19,10 +18,10 @@ public interface ClienteMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "role", target = "roles") // Mapear roles directamente si es necesario
-    default UsuarioDto toIdDto(Usuario usuario) {
+    default VueloDto.UsuarioDto toIdDto(Usuario usuario) {
         if (usuario == null) return null;
 
-        UsuarioDto dto = new UsuarioDto();
+        VueloDto.UsuarioDto dto = new VueloDto.UsuarioDto();
         dto.setId(usuario.getId());
         dto.setNombre(usuario.getNombre());
         dto.setApellido(usuario.getApellido());
@@ -37,13 +36,14 @@ public interface ClienteMapper {
         } else {
             dto.setRoles(Set.of());
         }
+        dto.setReservaDtos(ReservaMapper.INSTANCE.toDtoList((List<Reserva>) usuario.getReserva()));
 
         return dto;
     }
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "roles", target = "role") // Mapear roles directamente
-    default Usuario toIdEntity(UsuarioDto usuarioDto) {
+    default Usuario toIdEntity(VueloDto.UsuarioDto usuarioDto) {
         if (usuarioDto == null) return null;
 
         Usuario usuario = new Usuario();
@@ -65,12 +65,12 @@ public interface ClienteMapper {
         return usuario;
     }
 
-    default List<UsuarioDto> toDtoList(List<Usuario> usuarios) {
+    default List<VueloDto.UsuarioDto> toDtoList(List<Usuario> usuarios) {
         if (usuarios == null || usuarios.isEmpty()) return List.of();
         return usuarios.stream().map(this::toIdDto).collect(Collectors.toList());
     }
 
-    default List<Usuario> toEntityList(List<UsuarioDto> usuariosDto) {
+    default List<Usuario> toEntityList(List<VueloDto.UsuarioDto> usuariosDto) {
         if (usuariosDto == null || usuariosDto.isEmpty()) return List.of();
         return usuariosDto.stream().map(this::toIdEntity).collect(Collectors.toList());
     }

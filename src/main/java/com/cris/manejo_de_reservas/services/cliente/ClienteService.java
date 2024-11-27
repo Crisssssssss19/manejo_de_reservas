@@ -1,21 +1,18 @@
 package com.cris.manejo_de_reservas.services.cliente;
 
-import com.cris.manejo_de_reservas.dto.ClienteDto;
-import com.cris.manejo_de_reservas.entities.Usuario;
-import com.cris.manejo_de_reservas.mapper.UsuarioDto;
-import org.springframework.stereotype.Service;
+import com.cris.manejo_de_reservas.dto.VueloDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ClienteService {
 
-    UsuarioDto guardar (UsuarioDto usuarioDto);
-    Optional<UsuarioDto> buscarClientePorId(Long id);
-    List<UsuarioDto> BuscarCliente();
-    List<UsuarioDto>BuscarClientesByIds(List<Long> ids);
-    List<UsuarioDto>BuscarClientesByNombre(String nombre);
-    Optional<UsuarioDto> actualizarCliente(Long id,UsuarioDto usuarioDto);
+    VueloDto.UsuarioDto guardar (VueloDto.UsuarioDto usuarioDto);
+    Optional<VueloDto.UsuarioDto> buscarClientePorId(Long id);
+    List<VueloDto.UsuarioDto> BuscarCliente();
+    List<VueloDto.UsuarioDto>BuscarClientesByIds(List<Long> ids);
+    List<VueloDto.UsuarioDto>BuscarClientesByNombre(String nombre);
+    Optional<VueloDto.UsuarioDto> actualizarCliente(Long id, VueloDto.UsuarioDto usuarioDto);
     void borrarCliente(Long id);
 
 }

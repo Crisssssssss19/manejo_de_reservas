@@ -47,9 +47,9 @@ public interface ReservaMapper {
         }
 
         // Mapeo de id_reserva (Pasajero)
-        if (reserva.getId_reserva() != null) {
+
             dto.setId_reserva(PasajeroMapper.INSTANCE.toPasajeroDto(reserva.getId_reserva()));  // Suponiendo que tienes un PasajeroMapper
-        }
+
 
         return dto;
     }

@@ -1,7 +1,6 @@
 package com.cris.manejo_de_reservas.api;
-import com.cris.manejo_de_reservas.dto.ClienteDto;
+import com.cris.manejo_de_reservas.dto.VueloDto;
 import com.cris.manejo_de_reservas.exceptions.ClienteNotFounException;
-import com.cris.manejo_de_reservas.mapper.UsuarioDto;
 import com.cris.manejo_de_reservas.services.cliente.ClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +35,7 @@ public class ClienteController{
 //    }
 
     @GetMapping()
-    public ResponseEntity<List<UsuarioDto>>getAllClientes(){
+    public ResponseEntity<List<VueloDto.UsuarioDto>>getAllClientes(){
         return ResponseEntity.ok(clienteService.BuscarCliente());
     }
 
@@ -44,25 +43,25 @@ public class ClienteController{
 
 
     @GetMapping("/idCliente/{idCliente}")//Traer cliente por Id
-    public ResponseEntity<UsuarioDto> getClienteById(@PathVariable("idCliente") Long id){ // Tienen que ser iguales
+    public ResponseEntity<VueloDto.UsuarioDto> getClienteById(@PathVariable("idCliente") Long id){ // Tienen que ser iguales
         return clienteService.buscarClientePorId(id)
                 .map(cliente -> ResponseEntity.ok().body(cliente))
                 .orElseThrow(ClienteNotFounException::new);
     }
 
     @GetMapping("/lista")//Obtener lista de clientes
-    public ResponseEntity<List<UsuarioDto>> getListCliente(@RequestBody List<Long>ids ){
+    public ResponseEntity<List<VueloDto.UsuarioDto>> getListCliente(@RequestBody List<Long>ids ){
         return ResponseEntity.ok(clienteService.BuscarClientesByIds(ids));
     }
 
     @GetMapping("/nombre/{nombre}")//Buscar clinete por nombre
-    public ResponseEntity<List<UsuarioDto>> getClienteByName(@PathVariable("nombre") String name){
+    public ResponseEntity<List<VueloDto.UsuarioDto>> getClienteByName(@PathVariable("nombre") String name){
         return ResponseEntity.ok(clienteService.BuscarClientesByNombre(name));
     }
 
     @PutMapping("/actualizar/{id}")//actualizar cliente
-    public ResponseEntity<UsuarioDto> actualizarCliente(@PathVariable("id") Long id,@RequestBody UsuarioDto cliente){
-        Optional<UsuarioDto> clienteUpdate = clienteService.actualizarCliente(id,cliente);
+    public ResponseEntity<VueloDto.UsuarioDto> actualizarCliente(@PathVariable("id") Long id, @RequestBody VueloDto.UsuarioDto cliente){
+        Optional<VueloDto.UsuarioDto> clienteUpdate = clienteService.actualizarCliente(id,cliente);
         return clienteUpdate.map(clienteA -> ResponseEntity.ok(clienteA))
                 .orElseGet(() ->{
                     return createNewCliente(cliente);
@@ -70,12 +69,12 @@ public class ClienteController{
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDto> crearCliente(@RequestBody UsuarioDto cliente){
+    public ResponseEntity<VueloDto.UsuarioDto> crearCliente(@RequestBody VueloDto.UsuarioDto cliente){
         return createNewCliente(cliente);
     }
 
-    private ResponseEntity<UsuarioDto> createNewCliente(UsuarioDto cliente) {
-        UsuarioDto newCliente = clienteService.guardar(cliente);
+    private ResponseEntity<VueloDto.UsuarioDto> createNewCliente(VueloDto.UsuarioDto cliente) {
+        VueloDto.UsuarioDto newCliente = clienteService.guardar(cliente);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")//Agrega un id
                 .buildAndExpand(newCliente.getId())//Construye la url
